@@ -1,0 +1,3 @@
+# This file keeps the uploads/ directory tracked by git.
+# Actual uploaded files are ignored via root .gitignore.
+# In production, images are stored on Cloudinary — not here.

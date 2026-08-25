@@ -1,0 +1,61 @@
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 20px 0;
+  transition: all 0.4s ease;
+  background: transparent;
+}
+.navbar--scrolled {
+  background: rgba(13,13,13,0.95);
+  backdrop-filter: blur(20px);
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(200,169,110,0.15);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+}
+.navbar__inner { display: flex; align-items: center; justify-content: space-between; }
+
+.navbar__logo { display: flex; align-items: center; gap: 12px; }
+.navbar__logo-icon { font-size: 1.6rem; }
+.navbar__logo-name {
+  display: block; font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 700; color: var(--primary);
+  line-height: 1;
+}
+.navbar__logo-sub {
+  display: block; font-size: 0.65rem; color: var(--text-muted);
+  letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px;
+}
+
+.navbar__links {
+  display: flex; align-items: center; gap: 8px; list-style: none;
+}
+.navbar__link {
+  padding: 8px 14px; border-radius: 50px; font-size: 0.88rem;
+  color: var(--text-muted); font-weight: 500; transition: var(--transition);
+}
+.navbar__link:hover, .navbar__link--active {
+  color: var(--primary); background: rgba(200,169,110,0.1);
+}
+.navbar__call {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #000; font-weight: 600; font-size: 0.82rem;
+  padding: 9px 18px; border-radius: 50px; transition: var(--transition);
+}
+.navbar__call:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200,169,110,0.3); }
+
+.navbar__hamburger {
+  display: none; background: none; border: none;
+  color: var(--text-primary); padding: 4px;
+}
+
+@media (max-width: 768px) {
+  .navbar__hamburger { display: block; }
+  .navbar__links {
+    display: none; position: fixed; inset: 0; top: 65px;
+    flex-direction: column; justify-content: flex-start; padding-top: 40px;
+    background: rgba(13,13,13,0.98); backdrop-filter: blur(20px);
+    gap: 8px; border-top: 1px solid var(--border);
+  }
+  .navbar__links--open { display: flex; }
+  .navbar__link { font-size: 1.1rem; padding: 14px 28px; }
+}

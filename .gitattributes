@@ -1,0 +1,24 @@
+# Auto detect text files and perform LF normalisation
+* text=auto eol=lf
+
+# Force bash scripts to always use LF
+*.sh text eol=lf
+
+# Windows-specific batch files keep CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files — no line-ending normalisation
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.ttf binary
+*.woff binary
+*.woff2 binary

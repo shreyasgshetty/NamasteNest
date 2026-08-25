@@ -1,0 +1,44 @@
+# ─── Environment Variables ─────────────────────────────────────────────────────
+# NEVER commit .env files — they contain live credentials
+.env
+.env.*
+!.env.example
+
+# ─── Dependencies ──────────────────────────────────────────────────────────────
+node_modules/
+**/node_modules/
+
+# ─── Build Outputs ─────────────────────────────────────────────────────────────
+dist/
+dist-ssr/
+build/
+.vite/
+
+# ─── Server Uploads ────────────────────────────────────────────────────────────
+# Local upload folder — production images go to Cloudinary, not git
+server/uploads/*
+!server/uploads/.gitkeep
+
+# ─── Logs ──────────────────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ─── OS / Editor Artifacts ────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ─── Misc ──────────────────────────────────────────────────────────────────────
+*.local
+.cache/
