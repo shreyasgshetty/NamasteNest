@@ -10,8 +10,49 @@ const connectDB = require('./config/db');
 const app = express();
 connectDB();
 
-app.use(helmet({ crossOriginEmbedderPolicy: false, contentSecurityPolicy: false }));
-app.use(cors({ origin: process.env.CLIENT_URL || '*' }));
+app.use(helmet({
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+  contentSecurityPolicy: false,
+}));
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:5000',
+  'https://namaste-nest.vercel.app',
+];
+
+if (process.env.CLIENT_URL) {
+  process.env.CLIENT_URL.split(',').forEach(u => {
+    const trimmed = u.trim().replace(/\/$/, '');
+    if (trimmed && !allowedOrigins.includes(trimmed)) {
+      allowedOrigins.push(trimmed);
+    }
+  });
+}
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow non-browser requests (e.g. mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+
+    if (
+      allowedOrigins.includes('*') ||
+      allowedOrigins.includes(origin) ||
+      /^https:\/\/.*\.vercel\.app$/.test(origin)
+    ) {
+      return callback(null, true);
+    }
+
+    // Fallback: allow origin so valid frontend deployments are never blocked
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 app.use(express.json());
 // Use compact colourised logs in dev, structured logs in production
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));

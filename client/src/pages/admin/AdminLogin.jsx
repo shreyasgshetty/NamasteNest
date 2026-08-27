@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { FcGoogle } from 'react-icons/fc';
+import logoImg from '../../assets/logo.png';
 import './AdminLogin.css';
 
 export default function AdminLogin() {
@@ -26,7 +27,7 @@ export default function AdminLogin() {
   return (
     <div className="admin-login">
       <div className="admin-login__card">
-        <div className="admin-login__logo">🏡</div>
+        <img src={logoImg} alt="Namaste Nest" className="admin-login__logo-img" />
         <h1>Namaste Nest</h1>
         <p className="admin-login__sub">Admin Panel</p>
         <div className="admin-login__divider" />

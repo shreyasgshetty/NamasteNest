@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { FiMenu, FiX, FiPhone } from 'react-icons/fi';
+import logoImg from '../assets/logo.png';
 import './Navbar.css';
 
 const links = [
@@ -27,7 +28,7 @@ export default function Navbar() {
     <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
       <div className="navbar__inner container">
         <Link to="/" className="navbar__logo">
-          <span className="navbar__logo-icon">🏡</span>
+          <img src={logoImg} alt="Namaste Nest Logo" className="navbar__logo-img" />
           <div>
             <span className="navbar__logo-name">Namaste Nest</span>
             <span className="navbar__logo-sub">Guest House · Mysore</span>

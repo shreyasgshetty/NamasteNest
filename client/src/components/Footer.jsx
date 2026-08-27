@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FiPhone, FiMail, FiMapPin, FiInstagram, FiFacebook, FiTwitter } from 'react-icons/fi';
+import logoImg from '../assets/logo.png';
 import './Footer.css';
 
 export default function Footer() {
@@ -7,7 +8,10 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer__top container">
         <div className="footer__brand">
-          <div className="footer__logo">🏡 Namaste Nest</div>
+          <div className="footer__logo">
+            <img src={logoImg} alt="Namaste Nest Logo" className="footer__logo-img" />
+            <span>Namaste Nest</span>
+          </div>
           <p>Experience the warmth of Mysore hospitality. Your home away from home in the heart of the City of Palaces.</p>
           <div className="footer__socials">
             <a href="#" aria-label="Instagram"><FiInstagram /></a>

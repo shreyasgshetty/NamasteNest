@@ -7,8 +7,25 @@
   position: sticky; top: 0; height: 100vh;
 }
 .adash__logo {
-  font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
-  color: var(--primary); font-weight: 700; margin-bottom: 36px; padding: 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  color: var(--color-accent);
+  font-weight: 700;
+  margin-bottom: 36px;
+  padding: 0 8px;
+}
+
+.adash__logo-img {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  background: #FFFFFF;
+  padding: 2px;
+  flex-shrink: 0;
 }
 .adash__nav { flex: 1; }
 .adash__nav-item {

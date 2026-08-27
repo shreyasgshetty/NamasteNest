@@ -10,9 +10,26 @@
   color: var(--text-muted); font-size: 0.82rem; margin-bottom: 28px;
   transition: var(--transition);
 }
-.pform__back:hover { color: var(--primary); }
-.pform__logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--primary); font-weight: 700; margin-bottom: 8px; }
-.pform__sidebar-title { color: var(--text-muted); font-size: 0.78rem; margin-bottom: 20px; }
+.pform__logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: var(--color-accent);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.pform__logo-img {
+  height: 28px;
+  width: 28px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  background: #FFFFFF;
+  padding: 2px;
+  flex-shrink: 0;
+}
 .pform__nav { display: flex; flex-direction: column; gap: 4px; }
 .pform__nav-link {
   padding: 9px 12px; border-radius: 8px; color: var(--text-muted);

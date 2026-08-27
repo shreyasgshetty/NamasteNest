@@ -4,10 +4,11 @@ import { useAuth } from '../../context/AuthContext';
 import { FiPlus, FiEdit2, FiTrash2, FiLogOut, FiHome, FiEye } from 'react-icons/fi';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { resolveImageUrl } from '../../utils/imageUrl';
+import logoImg from '../../assets/logo.png';
 import './AdminDashboard.css';
 
 const API = import.meta.env.VITE_API_URL;
-const UPLOADS = import.meta.env.VITE_UPLOADS_URL;
 
 export default function AdminDashboard() {
   const { user, logout, getToken } = useAuth();
@@ -41,7 +42,10 @@ export default function AdminDashboard() {
     <div className="adash">
       {/* Sidebar */}
       <aside className="adash__sidebar">
-        <div className="adash__logo">🏡 Namaste Nest</div>
+        <div className="adash__logo">
+          <img src={logoImg} alt="Namaste Nest" className="adash__logo-img" />
+          <span>Namaste Nest</span>
+        </div>
         <nav className="adash__nav">
           <span className="adash__nav-item adash__nav-item--active"><FiHome /> Properties</span>
         </nav>
@@ -78,7 +82,7 @@ export default function AdminDashboard() {
               <div key={p._id} className="adash__card">
                 <div className="adash__card-img">
                   {p.images?.[0]
-                    ? <img src={`${UPLOADS}/${p.images[0]}`} alt={p.name} />
+                    ? <img src={resolveImageUrl(p.images[0])} alt={p.name} />
                     : <div className="adash__card-placeholder">🏡</div>}
                   <span className={`adash__badge ${p.isAvailable ? 'green' : 'red'}`}>
                     {p.isAvailable ? 'Available' : 'Unavailable'}

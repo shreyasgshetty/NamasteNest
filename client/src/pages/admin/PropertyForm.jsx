@@ -3,8 +3,8 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { FiArrowLeft, FiUpload, FiX, FiCheck } from 'react-icons/fi';
 import axios from 'axios';
-import toast from 'react-hot-toast';
 import { resolveImageUrl } from '../../utils/imageUrl';
+import logoImg from '../../assets/logo.png';
 import './PropertyForm.css';
 
 const API = import.meta.env.VITE_API_URL;
@@ -153,7 +153,10 @@ export default function PropertyForm() {
     <div className="pform">
       <div className="pform__sidebar">
         <Link to="/admin" className="pform__back"><FiArrowLeft /> Dashboard</Link>
-        <div className="pform__logo">🏡 Namaste Nest</div>
+        <div className="pform__logo">
+          <img src={logoImg} alt="Namaste Nest" className="pform__logo-img" />
+          <span>Namaste Nest</span>
+        </div>
         <p className="pform__sidebar-title">{isEdit ? 'Edit Property' : 'Add New Property'}</p>
         <nav className="pform__nav">
           {['Basic Info', 'Images', 'Amenities', 'Location', 'Reviews & Links'].map((s, i) => (
