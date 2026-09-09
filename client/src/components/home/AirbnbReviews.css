@@ -1,0 +1,170 @@
+/* ──────────────────────────────────────────
+   AIRBNB REVIEWS
+   Clean centered block — no fabricated content
+────────────────────────────────────────── */
+
+.airbnb-reviews {
+  background: var(--color-bg);
+  padding: clamp(56px, 7vw, 96px) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.airbnb-reviews__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 4vw, 48px);
+  align-items: flex-start;
+}
+
+.airbnb-reviews__heading {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  color: var(--color-text);
+  line-height: 1.15;
+  margin-bottom: var(--space-sm);
+  letter-spacing: -0.02em;
+}
+
+.airbnb-reviews__sub {
+  color: var(--color-text-secondary);
+  font-size: var(--text-base);
+  line-height: 1.65;
+  max-width: 480px;
+}
+
+/* Review block card */
+.airbnb-reviews__block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: clamp(28px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  max-width: 560px;
+  width: 100%;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Platform label */
+.airbnb-reviews__platform {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.airbnb-reviews__platform-icon {
+  color: #FF5A5F;
+}
+
+.airbnb-reviews__platform-name {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: 0.02em;
+}
+
+/* Rating */
+.airbnb-reviews__rating {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.airbnb-reviews__score {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.airbnb-reviews__stars {
+  display: flex;
+  gap: 3px;
+}
+
+.airbnb-reviews__star {
+  font-size: 1.5rem;
+  color: var(--color-accent);
+}
+
+/* Tags */
+.airbnb-reviews__tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.airbnb-reviews__tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  background: var(--color-surface-subtle);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.airbnb-reviews__tag--highlight {
+  background: var(--color-accent-subtle);
+  color: var(--color-accent-hover);
+  border-color: var(--color-accent-light);
+  font-weight: 600;
+}
+
+/* Note text */
+.airbnb-reviews__note {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  max-width: 440px;
+  margin-top: -4px;
+}
+
+/* CTA */
+.airbnb-reviews__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #FF5A5F;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 12px 22px;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: var(--transition);
+  border: none;
+  min-height: 44px;
+  margin-top: 4px;
+}
+
+.airbnb-reviews__cta:hover {
+  background: #e04f54;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ── Mobile ── */
+@media (max-width: 520px) {
+  .airbnb-reviews__heading {
+    font-size: clamp(1.75rem, 6vw, 2.25rem);
+  }
+
+  .airbnb-reviews__score {
+    font-size: 2.75rem;
+  }
+
+  .airbnb-reviews__block {
+    padding: 24px 20px;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .airbnb-reviews__cta { transition: none; }
+}

@@ -1,0 +1,250 @@
+/* ──────────────────────────────────────────
+   EXPLORE MYSURU
+   Desktop: asymmetric editorial grid
+   Mobile: horizontal snap scroll
+────────────────────────────────────────── */
+
+.explore {
+  padding: clamp(48px, 6vw, 80px) 0;
+  background: var(--color-surface-subtle);
+  overflow: hidden;
+}
+
+.explore__header {
+  margin-bottom: clamp(28px, 3.5vw, 44px);
+}
+
+.explore__heading {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  color: var(--color-text);
+  line-height: 1.15;
+  margin-bottom: var(--space-xs);
+  letter-spacing: -0.02em;
+}
+
+.explore__sub {
+  color: var(--color-text-secondary);
+  font-size: var(--text-base);
+  line-height: 1.55;
+  max-width: 480px;
+}
+
+/* ── Desktop Grid (asymmetric 3-col layout) ── */
+.explore__scroll-container {
+  padding: 0 clamp(16px, 4vw, 40px);
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.explore__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 250px 250px;
+  grid-template-areas:
+    "palace chamundi devaraja"
+    "palace philomena zoo";
+  gap: 14px;
+}
+
+/* Card grid-area assignments */
+.explore__card--palace {
+  grid-area: palace;
+}
+
+.explore__card--chamundi {
+  grid-area: chamundi;
+}
+
+.explore__card--devaraja {
+  grid-area: devaraja;
+}
+
+.explore__card--philomena {
+  grid-area: philomena;
+}
+
+.explore__card--zoo {
+  grid-area: zoo;
+}
+
+/* Individual card */
+.explore__card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: default;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.explore__card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Image cards */
+.explore__card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.explore__card:hover .explore__card-img {
+  transform: scale(1.04);
+}
+
+/* Gradient overlay for text readability over images */
+.explore__card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(30, 34, 30, 0.75) 0%, transparent 55%);
+}
+
+/* Text-only card background */
+.explore__card-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, var(--card-accent, #2D5A3C) 0%, #1E221E 100%);
+  opacity: 0.12;
+}
+
+.explore__card--text {
+  background: var(--color-surface);
+}
+
+.explore__card--text .explore__card-body {
+  color: var(--color-text);
+}
+
+.explore__card--text .explore__card-cat {
+  color: var(--color-text-secondary);
+}
+
+.explore__card--text .explore__card-name {
+  color: var(--color-text);
+}
+
+/* Card body — text label */
+.explore__card-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 18px;
+  z-index: 2;
+}
+
+.explore__card-cat {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(250, 247, 242, 0.75);
+  margin-bottom: 4px;
+}
+
+.explore__card-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: #FAF7F2;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Text-only card: dark text instead */
+.explore__card--text .explore__card-body {
+  position: relative;
+  bottom: auto;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.explore__card--text .explore__card-cat {
+  color: var(--color-text-muted);
+}
+
+.explore__card--text .explore__card-name {
+  color: var(--color-text);
+}
+
+/* Accent line on text cards */
+.explore__card--text::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--card-accent, var(--color-accent));
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* ── Tablet ── */
+@media (max-width: 900px) {
+  .explore__grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 260px 220px 220px;
+    grid-template-areas:
+      "palace palace"
+      "chamundi devaraja"
+      "philomena zoo";
+    gap: 14px;
+  }
+}
+
+/* ── Mobile: Horizontal Snap Scroll ── */
+@media (max-width: 680px) {
+  .explore__scroll-container {
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 16px;
+  }
+
+  .explore__scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .explore__grid {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    grid-template-columns: none;
+    grid-template-rows: none;
+    grid-template-areas: none;
+    padding: 0 clamp(16px, 4vw, 24px);
+    width: max-content;
+  }
+
+  .explore__card {
+    grid-area: auto;
+    grid-row: auto;
+    grid-column: auto;
+    flex-shrink: 0;
+    width: clamp(240px, 72vw, 300px);
+    height: 320px;
+    scroll-snap-align: start;
+  }
+
+  .explore__heading {
+    font-size: clamp(1.75rem, 6vw, 2.25rem);
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .explore__card { transition: none; }
+  .explore__card-img { transition: none; }
+}

@@ -1,0 +1,118 @@
+/* ──────────────────────────────────────────
+   FEATURED STAYS
+────────────────────────────────────────── */
+
+.featured-stays {
+  padding: clamp(56px, 7vw, 96px) 0;
+  background: var(--color-bg);
+}
+
+.featured-stays__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: clamp(32px, 5vw, 56px);
+}
+
+.featured-stays__heading {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  color: var(--color-text);
+  line-height: 1.15;
+  margin-bottom: var(--space-sm);
+  letter-spacing: -0.02em;
+}
+
+.featured-stays__sub {
+  color: var(--color-text-secondary);
+  font-size: var(--text-base);
+  line-height: 1.65;
+  max-width: 480px;
+}
+
+.featured-stays__view-all {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Room card grid */
+.featured-stays__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* Loading skeletons */
+.stay-skeleton {
+  height: 420px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-subtle) 0%,
+    var(--color-surface-hover) 50%,
+    var(--color-surface-subtle) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.featured-stays__empty {
+  text-align: center;
+  padding: 56px 0;
+  color: var(--color-text-secondary);
+}
+
+/* Mobile-only CTA — hidden on desktop */
+.featured-stays__mobile-cta {
+  display: none;
+}
+
+/* ── Tablet ── */
+@media (max-width: 900px) {
+  .featured-stays__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 680px) {
+  .featured-stays__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .featured-stays__view-all {
+    display: none; /* hidden on mobile, shown at bottom instead */
+  }
+
+  .featured-stays__grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .featured-stays__heading {
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+  }
+
+  .stay-skeleton {
+    height: 360px;
+  }
+
+  .featured-stays__mobile-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .stay-skeleton { animation: none; }
+}

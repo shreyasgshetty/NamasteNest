@@ -1,0 +1,74 @@
+/* ──────────────────────────────────────────
+   FINAL CTA
+   Warm, calm, restrained — no dark banner
+────────────────────────────────────────── */
+
+.final-cta {
+  background: var(--color-surface-subtle);
+  padding: clamp(56px, 7vw, 80px) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.final-cta__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.final-cta__heading {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  color: var(--color-text);
+  line-height: 1.2;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+
+.final-cta__sub {
+  color: var(--color-text-secondary);
+  font-size: var(--text-base);
+  line-height: 1.65;
+  max-width: 440px;
+}
+
+.final-cta__actions {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+/* ── Mobile ── */
+@media (max-width: 680px) {
+  .final-cta__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .final-cta__heading {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+  }
+
+  .final-cta__sub {
+    max-width: 100%;
+  }
+
+  .final-cta__actions {
+    width: 100%;
+  }
+
+  .final-cta__actions .btn-primary,
+  .final-cta__actions .btn-outline {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .final-cta__actions {
+    flex-direction: column;
+  }
+}

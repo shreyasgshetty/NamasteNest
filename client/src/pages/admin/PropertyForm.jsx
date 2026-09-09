@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { FiArrowLeft, FiUpload, FiX, FiCheck } from 'react-icons/fi';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import { resolveImageUrl } from '../../utils/imageUrl';
 import logoImg from '../../assets/logo.png';
 import './PropertyForm.css';
