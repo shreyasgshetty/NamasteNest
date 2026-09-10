@@ -12,26 +12,38 @@ const HERO_IMG = 'https://images.unsplash.com/photo-1590766940554-634a7ed41450?a
 
 export default function HomeHero() {
   return (
-    <section className="hero" aria-label="Namaste Nest — Stays in Gokulam, Mysuru">
-      <div className="hero__inner">
-        {/* Text panel — warm linen background */}
-        <div className="hero__content">
-          <span className="hero__pin">
+    <section className="hero home-hero" aria-label="Namaste Nest — Stays in Gokulam, Mysuru">
+      <div className="hero__inner home-hero__inner">
+        {/* Image panel — visual accent */}
+        <div className="hero__visual home-hero__visual">
+          <img
+            src={HERO_IMG}
+            alt="Mysuru Palace — a heritage building under a clear blue sky surrounded by greenery"
+            className="hero__photo home-hero__image"
+            loading="eager"
+            decoding="async"
+            onError={(e) => { e.currentTarget.style.opacity = '0'; }}
+          />
+        </div>
+
+        {/* Text panel — primary editorial content */}
+        <div className="hero__content home-hero__content">
+          <span className="hero__pin home-hero__location">
             <FiMapPin size={13} aria-hidden="true" />
             Gokulam 3rd Stage · Mysuru, Karnataka
           </span>
 
-          <h1 className="hero__title">
+          <h1 className="hero__title home-hero__heading">
             Stay close to Mysuru.<br />
             Feel at home in Gokulam.
           </h1>
 
-          <p className="hero__sub">
+          <p className="hero__sub home-hero__description">
             Comfortable stays in one of Mysuru's familiar neighbourhoods — a convenient base for
             exploring the city, working remotely, visiting family or simply taking a few days away.
           </p>
 
-          <div className="hero__cta">
+          <div className="hero__cta home-hero__cta">
             <Link to="/rooms" className="btn-primary">
               Explore Stays <FiArrowRight size={15} aria-hidden="true" />
             </Link>
@@ -39,18 +51,6 @@ export default function HomeHero() {
               Get Directions
             </Link>
           </div>
-        </div>
-
-        {/* Image panel */}
-        <div className="hero__visual">
-          <img
-            src={HERO_IMG}
-            alt="Mysuru Palace — a heritage building under a clear blue sky surrounded by greenery"
-            className="hero__photo"
-            loading="eager"
-            decoding="async"
-            onError={(e) => { e.currentTarget.style.opacity = '0'; }}
-          />
         </div>
       </div>
     </section>

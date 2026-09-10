@@ -31,7 +31,7 @@ export default function Navbar() {
           <img src={logoImg} alt="Namaste Nest Logo" className="navbar__logo-img" />
           <div>
             <span className="navbar__logo-name">Namaste Nest</span>
-            <span className="navbar__logo-sub">Guest House · Mysore</span>
+            <span className="navbar__logo-sub">Guest House · Mysuru</span>
           </div>
         </Link>
 
