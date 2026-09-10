@@ -10,7 +10,7 @@ const PALACE_IMG = 'https://i.pinimg.com/1200x/23/9b/69/239b69ad123e115cf6a81669
 const highlights = [
   { place: 'Mysuru Palace', note: 'Heritage & architecture' },
   { place: 'Chamundi Hills', note: 'Views over the city' },
-  { place: 'Devaraja Market', note: 'Local life & colour' },
+  { place: 'Mysuru Zoo', note: 'Wildlife & nature' },
 ];
 
 export default function MysuruIntro() {
