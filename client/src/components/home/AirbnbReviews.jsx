@@ -45,7 +45,7 @@ export default function AirbnbReviews() {
 
           {/* Tags */}
           <div className="airbnb-reviews__tags">
-            <span className="airbnb-reviews__tag">11 reviews</span>
+            <span className="airbnb-reviews__tag">12+ reviews</span>
             <span className="airbnb-reviews__tag airbnb-reviews__tag--highlight">
               Guest favourite
             </span>

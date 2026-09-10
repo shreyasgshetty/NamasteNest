@@ -1,52 +1,87 @@
 import { Link } from 'react-router-dom';
-import { FiUsers, FiMaximize, FiStar, FiArrowRight } from 'react-icons/fi';
-import { MdOutlineKingBed } from 'react-icons/md';
 import { resolveImageUrl } from '../utils/imageUrl';
 import './RoomCard.css';
 
 const FALLBACK_IMAGES = {
-  'Studio': 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80',
-  '1BHK':   'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80',
-  '2BHK':   'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80',
-  '3BHK':   'https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=600&q=80',
-  '4BHK':   'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80',
+  'Studio': 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=80',
+  '1BHK':   'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=700&q=80',
+  '2BHK':   'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=700&q=80',
+  '3BHK':   'https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=700&q=80',
+  '4BHK':   'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=80',
+  'default':'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=80',
 };
 
+/**
+ * RoomCard — used for non-featured / Other Stays grid.
+ *
+ * Design rules:
+ *   • The ENTIRE card is a clickable Link → /rooms/:slug
+ *   • No CTA button, no enquiry link, no Airbnb info
+ *   • Discovery → detail page → enquiry/contact
+ *   • All fields rendered conditionally — no crash if missing
+ */
 export default function RoomCard({ room }) {
-  // Use real uploaded image if present, else Unsplash fallback
   const img = room.images?.[0]
     ? resolveImageUrl(room.images[0])
-    : FALLBACK_IMAGES[room.type] || FALLBACK_IMAGES['Standard'];
+    : FALLBACK_IMAGES[room.type] || FALLBACK_IMAGES['default'];
+
+  const desc = room.shortDesc || (room.description || '').slice(0, 95);
+  const needsEllipsis = !room.shortDesc && (room.description || '').length > 95;
 
   return (
-    <div className="room-card">
+    <Link
+      to={`/rooms/${room.slug}`}
+      className="room-card"
+      aria-label={`View ${room.name}${room.type ? `, ${room.type}` : ''}${room.price ? `, ₹${room.price.toLocaleString('en-IN')} per night` : ''}`}
+    >
+      {/* Image */}
       <div className="room-card__img-wrap">
-        <img src={img} alt={room.name} loading="lazy" />
-        <span className="room-card__badge">{room.type}</span>
-        {room.isFeatured && <span className="room-card__featured"><FiStar size={10} /> Featured</span>}
+        <img
+          src={img}
+          alt={`${room.name} property photo`}
+          loading="lazy"
+        />
+        {room.type && (
+          <span className="room-card__badge">{room.type}</span>
+        )}
       </div>
+
+      {/* Body */}
       <div className="room-card__body">
         <h3 className="room-card__title">{room.name}</h3>
-        <p className="room-card__desc">{room.shortDesc || room.description.slice(0, 90)}...</p>
-        <div className="room-card__meta">
-          <span><FiUsers size={13} /> {room.capacity} Guests</span>
-          {room.size && <span><FiMaximize size={13} /> {room.size}</span>}
-          <span><MdOutlineKingBed size={14} /> Floor {room.floor || 1}</span>
-        </div>
-        <div className="room-card__amenities">
-          {room.amenities?.slice(0, 4).map(a => <span key={a}>{a}</span>)}
-          {room.amenities?.length > 4 && <span>+{room.amenities.length - 4} more</span>}
-        </div>
-        <div className="room-card__footer">
-          <div className="room-card__price">
-            <span className="room-card__price-val">₹{room.price.toLocaleString()}</span>
-            <span className="room-card__price-unit"> / night</span>
+
+        {desc && (
+          <p className="room-card__desc">
+            {desc}{needsEllipsis ? '…' : ''}
+          </p>
+        )}
+
+        {/* Amenities — max 4 */}
+        {room.amenities?.length > 0 && (
+          <div className="room-card__amenities" aria-label="Key amenities">
+            {room.amenities.slice(0, 4).map(a => (
+              <span key={a}>{a}</span>
+            ))}
+            {room.amenities.length > 4 && (
+              <span>+{room.amenities.length - 4}</span>
+            )}
           </div>
-          <Link to={`/rooms/${room.slug}`} className="room-card__btn">
-            View Details <FiArrowRight size={14} />
-          </Link>
+        )}
+
+        {/* Price */}
+        <div className="room-card__price-row">
+          {room.price ? (
+            <>
+              <span className="room-card__price-val">
+                ₹{room.price.toLocaleString('en-IN')}
+              </span>
+              <span className="room-card__price-unit"> / night</span>
+            </>
+          ) : (
+            <span className="room-card__price-na">Contact for pricing</span>
+          )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

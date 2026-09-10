@@ -13,11 +13,7 @@ export default function Footer() {
             <span>Namaste Nest</span>
           </div>
           <p>Experience the warmth of Mysore hospitality. Your home away from home in the heart of the City of Palaces.</p>
-          <div className="footer__socials">
-            <a href="#" aria-label="Instagram"><FiInstagram /></a>
-            <a href="#" aria-label="Facebook"><FiFacebook /></a>
-            <a href="#" aria-label="Twitter"><FiTwitter /></a>
-          </div>
+
         </div>
 
         <div className="footer__col">

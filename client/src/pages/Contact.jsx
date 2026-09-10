@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { FiPhone, FiMail, FiMapPin, FiClock, FiSend, FiInstagram, FiFacebook } from 'react-icons/fi';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -13,8 +14,20 @@ const INFO = [
 ];
 
 export default function Contact() {
+  const [searchParams] = useSearchParams();
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [sending, setSending] = useState(false);
+
+  // Prefill message when arriving from "Enquire About This Stay" links
+  useEffect(() => {
+    const stay = searchParams.get('stay');
+    if (stay) {
+      setForm(p => ({
+        ...p,
+        message: p.message ? p.message : `I'm interested in: ${decodeURIComponent(stay)}\n\n`,
+      }));
+    }
+  }, [searchParams]);
 
   const handleChange = e => setForm(p => ({ ...p, [e.target.name]: e.target.value }));
 
