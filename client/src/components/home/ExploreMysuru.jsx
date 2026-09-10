@@ -14,7 +14,7 @@ const destinations = [
     id: 'palace',
     name: 'Mysuru Palace',
     category: 'Heritage & architecture',
-    img: 'https://upload.wikimedia.org/wikipedia/commons/7/74/Exterior_of_the_Mysore_Palace%2C_Mysore%2C_Karnataka%2C_2018.jpg',
+    img: 'https://cdn.getyourguide.com/image/format=auto%2Cfit=crop%2Cgravity=auto%2Cquality=60%2Cwidth=400%2Cheight=265%2Cdpr=2/tour_img/1719875b213b1c44777fcffb53a685520f25a867ef7638301e2acb6084d7a23a.png',
     imgAlt: 'Mysuru Palace — full exterior view showing the main façade, domes and palace grounds',
     objectPos: 'center center',
     accent: '#2D5A3C',
