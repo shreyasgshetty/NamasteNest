@@ -4,12 +4,51 @@ require('dotenv').config({ path: `${__dirname}/.env` });
 const mongoose = require('mongoose');
 const Property = require(`${__dirname}/models/Property`);
 
+/**
+ * Seed data for the NamasteNest platform.
+ *
+ * IMPORTANT:
+ *   - Namaste Nest  → isFeatured: true   (the platform's primary featured stay)
+ *   - All others    → isFeatured: false  (additional listings)
+ *
+ * Only Namaste Nest may display Airbnb reputation information (5.0 / 12+ reviews /
+ * Guest favourite). Other listings do not inherit this data.
+ *
+ * Contact for all properties goes through the common /contact page.
+ * There is NO per-property owner contact field.
+ */
 const seedData = [
+  // ── FEATURED STAY ──────────────────────────────────────────────────────────
+  {
+    name: 'Namaste Nest',
+    type: '4BHK',
+    description: 'A spacious 4-bedroom luxury home stay in the heart of Gokulam, Mysuru. Fully furnished with modern amenities, a beautiful living space, and a warm hosting experience. Perfect for families, groups, and long-stay guests who want the comfort of home while exploring Mysuru.',
+    shortDesc: 'Spacious 4 BHK luxury home stay in Gokulam, Mysuru.',
+    price: 4000,
+    images: [],
+    capacity: 8,
+    bedrooms: 4,
+    bathrooms: 4,
+    amenities: ['Free WiFi', 'AC', 'Hot Water', 'Smart TV', 'Full Kitchen', 'Parking', 'Daily Housekeeping', 'Workspace'],
+    highlights: ['Heart of Gokulam', '4 bedrooms & 4 bathrooms', 'Yoga community neighbourhood', 'Airbnb Guest favourite'],
+    location: {
+      address: '959, 7th Main, Gokulam 3rd Stage',
+      city: 'Mysore',
+      state: 'Karnataka',
+      pincode: '570002',
+    },
+    reviews: {
+      airbnbUrl: 'https://www.airbnb.com.sg/rooms/1669361340542473773',
+    },
+    isFeatured: true,   // ← THE PLATFORM'S FEATURED STAY. Do not change.
+    isAvailable: true,
+  },
+  // ── OTHER STAYS (examples — replace with actual listings) ──────────────────
   {
     name: 'Cozy Studio Suite',
     type: 'Studio',
     description: 'A warm and compact studio perfect for solo travelers or couples. Features a comfortable double bed, fully equipped kitchenette, and a private balcony overlooking Mysore\'s lush greenery.',
-    shortDesc: 'Compact & cozy studio with balcony views',
+    shortDesc: 'Compact & cozy studio with balcony views.',
     price: 999,
     images: [],
     capacity: 2,
@@ -21,62 +60,17 @@ const seedData = [
     isAvailable: true,
   },
   {
-    name: 'Standard Garden Room',
-    type: 'Standard',
-    description: 'Our most popular room type. A spacious bedroom with king-size bed, work desk, wardrobe, and an attached bathroom, opening directly to our beautifully maintained garden.',
-    shortDesc: 'Spacious room with private garden access',
-    price: 1499,
-    images: [],
-    capacity: 2,
-    size: '350 sq ft',
-    floor: 1,
-    amenities: ['Free WiFi', 'AC', 'Hot Water', 'TV', 'Work Desk', 'Wardrobe', 'Garden Access', 'Daily Housekeeping', 'Parking', 'Room Service'],
-    highlights: ['Direct garden access', 'King-size bed', 'Work-friendly setup'],
-    isFeatured: true,
-    isAvailable: true,
-  },
-  {
-    name: 'Deluxe Heritage Room',
-    type: 'Deluxe',
-    description: 'A blend of traditional Mysore heritage decor and modern comfort. Features hand-crafted Mysore-style furniture, silk accents, large panoramic windows, mini-fridge, coffee maker and a sitting lounge.',
-    shortDesc: 'Heritage-themed deluxe room with lounge area',
-    price: 2199,
-    images: [],
-    capacity: 3,
-    size: '450 sq ft',
-    floor: 2,
-    amenities: ['Free WiFi', 'AC', 'Hot Water', 'Smart TV', 'Mini Fridge', 'Coffee Maker', 'Sitting Lounge', 'Premium Toiletries', 'Daily Housekeeping', 'Parking', 'Room Service', '24/7 Reception'],
-    highlights: ['Mysore heritage decor', 'Mini fridge & coffee maker', 'Panoramic views'],
-    isFeatured: true,
-    isAvailable: true,
-  },
-  {
-    name: 'Premium Suite',
-    type: 'Suite',
-    description: 'Our flagship suite — 600 sq ft of luxury with a separate living room, king-size bedroom, and a modern bathroom with bathtub. Enjoy a private terrace with stunning views of the Chamundi Hills.',
-    shortDesc: 'Luxury suite with Chamundi Hills terrace views',
-    price: 3499,
+    name: 'Garden Villa',
+    type: '2BHK',
+    description: 'A bright and airy 2-bedroom villa with direct access to a private garden. Ideal for couples or small families looking for a relaxed Mysuru stay with a homely touch.',
+    shortDesc: 'Airy 2 BHK villa with private garden access.',
+    price: 2500,
     images: [],
     capacity: 4,
-    size: '600 sq ft',
-    floor: 3,
-    amenities: ['Free WiFi', 'AC', 'Hot Water', 'Smart TV', 'Mini Bar', 'Coffee Maker', 'Bathtub', 'Private Terrace', 'Living Room', 'Premium Toiletries', 'Daily Housekeeping', 'Parking', 'Room Service', '24/7 Reception', 'Laundry'],
-    highlights: ['Chamundi Hills view', 'Private terrace', 'Bathtub & premium amenities', 'Separate living area'],
-    isFeatured: true,
-    isAvailable: true,
-  },
-  {
-    name: 'Family Comfort Room',
-    type: 'Family Room',
-    description: 'Designed for families — one king-size bed and two single beds, a large wardrobe, dining table, kitchenette, and a play area for kids. A homely atmosphere right in the heart of Mysore.',
-    shortDesc: 'Spacious family room with kitchenette & play area',
-    price: 2799,
-    images: [],
-    capacity: 5,
-    size: '550 sq ft',
-    floor: 2,
-    amenities: ['Free WiFi', 'AC', 'Hot Water', 'TV', 'Kitchenette', 'Dining Table', 'Wardrobe', "Kid's Play Corner", 'Daily Housekeeping', 'Parking', 'Room Service'],
-    highlights: ['Fits up to 5 guests', 'Kids friendly', 'Full kitchenette', 'Homely atmosphere'],
+    bedrooms: 2,
+    bathrooms: 2,
+    amenities: ['Free WiFi', 'AC', 'Hot Water', 'TV', 'Garden Access', 'Parking', 'Daily Housekeeping'],
+    highlights: ['Private garden', 'Quiet neighbourhood', 'Ideal for families'],
     isFeatured: false,
     isAvailable: true,
   },
@@ -101,7 +95,12 @@ async function seed() {
       inserted.push(doc);
     }
     console.log(`🌱 Seeded ${inserted.length} properties successfully!`);
-    console.log('   ↳ ' + inserted.map(p => `${p.name} → slug: "${p.slug}"`).join('\n   ↳ '));
+    console.log(
+      '   ↳ ' +
+        inserted
+          .map(p => `${p.name} → slug: "${p.slug}" | isFeatured: ${p.isFeatured}`)
+          .join('\n   ↳ ')
+    );
     process.exit(0);
   } catch (err) {
     console.error('❌ Seed error:', err.message);
