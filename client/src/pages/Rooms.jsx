@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   FiSearch, FiArrowRight, FiUsers, FiExternalLink,
-  FiRefreshCw, FiDroplet, FiChevronDown,
+  FiRefreshCw, FiDroplet,
 } from 'react-icons/fi';
 import { MdOutlineKingBed } from 'react-icons/md';
 import { SiAirbnb } from 'react-icons/si';
@@ -11,45 +11,74 @@ import { resolveImageUrl } from '../utils/imageUrl';
 import axios from 'axios';
 import './Rooms.css';
 
-const API   = import.meta.env.VITE_API_URL;
-const TYPES = ['All', 'Studio', '1BHK', '2BHK', '3BHK', '4BHK'];
-const SORTS = [
-  { value: 'recommended', label: 'Recommended' },
-  { value: 'name-asc',    label: 'Name: A–Z' },
-  { value: 'name-desc',   label: 'Name: Z–A' },
-  { value: 'price-asc',   label: 'Price: Low → High' },
-  { value: 'price-desc',  label: 'Price: High → Low' },
+const API = import.meta.env.VITE_API_URL;
+
+/* Filter types — value matches DB, label is display name */
+const TYPES = [
+  { value: 'All', label: 'All' },
+  { value: 'Studio', label: 'Studio' },
+  { value: '1BHK', label: '1 BHK' },
+  { value: '2BHK', label: '2 BHK' },
+  { value: '3BHK', label: '3 BHK' },
+  { value: '4BHK', label: '4 BHK' },
 ];
 
 /* Verified Namaste Nest Airbnb listing */
 const AIRBNB_URL = 'https://www.airbnb.com.sg/rooms/1669361340542473773';
 
+/* Verified Mysuru Palace editorial banner image */
+const BANNER_IMG =
+  'https://www.naturetravelagency.com/uploads/1757066809Mysore%20Ooty%20Coorg%20tour%20package.png?auto=format&fit=crop&fm=jpg&q=85&w=2400';
+
 const FALLBACK_IMAGES = {
   'Studio': 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85',
-  '1BHK':   'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=85',
-  '2BHK':   'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1200&q=85',
-  '3BHK':   'https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=1200&q=85',
-  '4BHK':   'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85',
-  'default':'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=85',
+  '1BHK': 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=85',
+  '2BHK': 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1200&q=85',
+  '3BHK': 'https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=1200&q=85',
+  '4BHK': 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85',
+  'default': 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=85',
 };
 
-function getImage(room, size = 'default') {
+function getImage(room) {
   if (room.images?.[0]) return resolveImageUrl(room.images[0]);
   return FALLBACK_IMAGES[room.type] || FALLBACK_IMAGES['default'];
 }
 
-function applySorting(list, sortBy) {
-  if (sortBy === 'name-asc')   return [...list].sort((a, b) => a.name.localeCompare(b.name));
-  if (sortBy === 'name-desc')  return [...list].sort((a, b) => b.name.localeCompare(a.name));
-  if (sortBy === 'price-asc')  return [...list].sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
-  if (sortBy === 'price-desc') return [...list].sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
-  return list;
+/* ══════════════════════════════════════════════════════
+   STAYS BANNER — photographic editorial header
+══════════════════════════════════════════════════════ */
+function StaysBanner() {
+  return (
+    <header className="stays-banner" aria-label="Stays page header">
+      {/* Background image */}
+      <img
+        src={BANNER_IMG}
+        alt="Mysuru Palace — City of Palaces"
+        className="stays-banner__img"
+        loading="eager"
+        fetchPriority="high"
+      />
+      {/* Gradient overlay — text-side darkening */}
+      <div className="stays-banner__overlay" aria-hidden="true" />
+
+      {/* Text content */}
+      <div className="container stays-banner__content">
+        <span className="stays-banner__label">OUR STAYS</span>
+        <h1 className="stays-banner__title">Find your stay.</h1>
+        <p className="stays-banner__desc">
+          Homes and rooms around Mysuru,<br className="stays-banner__br" />
+          with Namaste Nest as our featured stay.
+        </p>
+        <p className="stays-banner__location" aria-label="Location: Gokulam, Mysuru">
+          Gokulam · Mysuru
+        </p>
+      </div>
+    </header>
+  );
 }
 
 /* ══════════════════════════════════════════════════════
    FEATURED STAY — Namaste Nest
-   Entire card is clickable (Link wraps the content).
-   Airbnb information is exclusive to this section.
 ══════════════════════════════════════════════════════ */
 function FeaturedStay({ room }) {
   const img = getImage(room);
@@ -57,12 +86,12 @@ function FeaturedStay({ room }) {
   return (
     <section className="featured-stay" aria-labelledby="featured-heading">
       <div className="container">
-        <header className="featured-stay__header">
+        <header className="featured-stay__label-row">
           <span className="section-label">FEATURED STAY</span>
         </header>
 
         <div className="featured-stay__card">
-          {/* Image — clicking navigates to detail */}
+          {/* Image — full left panel, clickable */}
           <Link
             to={`/rooms/${room.slug}`}
             className="featured-stay__image-link"
@@ -76,36 +105,31 @@ function FeaturedStay({ room }) {
                 className="featured-stay__img"
                 loading="eager"
               />
-              <div className="featured-stay__img-overlay" aria-hidden="true" />
             </div>
           </Link>
 
           {/* Info panel */}
           <div className="featured-stay__body">
-            {/* Type pill */}
             {room.type && (
               <span className="featured-stay__type" aria-label={`Property type: ${room.type}`}>
                 {room.type}
               </span>
             )}
 
-            {/* Name */}
             <h2 id="featured-heading" className="featured-stay__name">
               <Link to={`/rooms/${room.slug}`} className="featured-stay__name-link">
                 {room.name}
               </Link>
             </h2>
 
-            {/* Spec row */}
             {(room.capacity || room.bedrooms || room.bathrooms) && (
               <div className="featured-stay__specs">
-                {room.capacity  && <span><FiUsers size={13} aria-hidden="true" /> {room.capacity} guests</span>}
-                {room.bedrooms  && <span><MdOutlineKingBed size={14} aria-hidden="true" /> {room.bedrooms} bed{room.bedrooms > 1 ? 's' : ''}</span>}
+                {room.capacity && <span><FiUsers size={13} aria-hidden="true" /> {room.capacity} guests</span>}
+                {room.bedrooms && <span><MdOutlineKingBed size={14} aria-hidden="true" /> {room.bedrooms} bed{room.bedrooms > 1 ? 's' : ''}</span>}
                 {room.bathrooms && <span><FiDroplet size={13} aria-hidden="true" /> {room.bathrooms} bath{room.bathrooms > 1 ? 's' : ''}</span>}
               </div>
             )}
 
-            {/* Price */}
             {room.price && (
               <div className="featured-stay__price-block">
                 <span className="featured-stay__price">₹{room.price.toLocaleString('en-IN')}</span>
@@ -114,23 +138,25 @@ function FeaturedStay({ room }) {
             )}
 
             {/* Airbnb trust bar — NAMASTE NEST ONLY */}
-            <div className="featured-stay__trust" aria-label="5.0 out of 5 on Airbnb, 12 plus reviews, Guest favourite">
+            <div
+              className="featured-stay__trust"
+              aria-label="5.0 out of 5 on Airbnb, 12 plus reviews, Guest favourite"
+            >
               <span className="featured-stay__stars" aria-hidden="true">★ 5.0</span>
               <span className="featured-stay__trust-sep" aria-hidden="true">·</span>
               <span className="featured-stay__reviews">12+ Airbnb reviews</span>
               <span className="featured-stay__fav-pill">Guest favourite</span>
             </div>
 
-            {/* Short description */}
             {(room.shortDesc || room.description) && (
               <p className="featured-stay__desc">
                 {room.shortDesc
                   ? room.shortDesc
-                  : (room.description || '').slice(0, 130) + ((room.description || '').length > 130 ? '…' : '')}
+                  : (room.description || '').slice(0, 130) +
+                  ((room.description || '').length > 130 ? '…' : '')}
               </p>
             )}
 
-            {/* Amenities preview */}
             {room.amenities?.length > 0 && (
               <ul className="featured-stay__amenities" aria-label="Key amenities">
                 {room.amenities.slice(0, 5).map(a => (
@@ -139,7 +165,6 @@ function FeaturedStay({ room }) {
               </ul>
             )}
 
-            {/* CTAs */}
             <div className="featured-stay__ctas">
               <Link
                 to={`/rooms/${room.slug}`}
@@ -168,23 +193,23 @@ function FeaturedStay({ room }) {
 }
 
 /* ══════════════════════════════════════════════════════
-   SKELETON LOADERS — warm shimmer
+   SKELETON LOADERS
 ══════════════════════════════════════════════════════ */
 function FeaturedSkeleton() {
   return (
     <section className="featured-stay">
       <div className="container">
-        <div className="sk sk--label mb-28" />
-        <div className="featured-stay__card sk-featured">
-          <div className="featured-stay__image-wrap sk sk--block" />
-          <div className="featured-stay__body sk-body">
-            <div className="sk sk--pill mb-14" />
-            <div className="sk sk--h2 mb-16" />
-            <div className="sk sk--row mb-18" />
-            <div className="sk sk--price mb-16" />
-            <div className="sk sk--trust mb-18" />
-            <div className="sk sk--line mb-10" />
-            <div className="sk sk--line sk--short mb-24" />
+        <div className="sk sk--label" style={{ marginBottom: 24 }} />
+        <div className="featured-stay__card sk-featured-card">
+          <div className="sk sk--full-block" />
+          <div className="featured-stay__body">
+            <div className="sk sk--pill" style={{ marginBottom: 14 }} />
+            <div className="sk sk--h2" style={{ marginBottom: 16 }} />
+            <div className="sk sk--row" style={{ marginBottom: 18 }} />
+            <div className="sk sk--price" style={{ marginBottom: 16 }} />
+            <div className="sk sk--trust" style={{ marginBottom: 18 }} />
+            <div className="sk sk--line" style={{ marginBottom: 10 }} />
+            <div className="sk sk--line sk--short" style={{ marginBottom: 24 }} />
             <div className="sk sk--btns" />
           </div>
         </div>
@@ -200,8 +225,8 @@ function GridSkeleton() {
         <div key={i} className="sk-card" aria-hidden="true">
           <div className="sk sk--card-img" />
           <div className="sk-card__body">
-            <div className="sk sk--line mb-10" />
-            <div className="sk sk--line sk--short mb-16" />
+            <div className="sk sk--line" style={{ marginBottom: 10 }} />
+            <div className="sk sk--line sk--short" style={{ marginBottom: 14 }} />
             <div className="sk sk--price" />
           </div>
         </div>
@@ -214,9 +239,9 @@ function GridSkeleton() {
    HOW IT WORKS
 ══════════════════════════════════════════════════════ */
 const HOW_STEPS = [
-  { num: '01', title: 'Choose a stay',    desc: 'Browse the stays and find one that suits your visit to Mysuru.' },
+  { num: '01', title: 'Choose a stay', desc: 'Browse the stays and find one that suits your visit to Mysuru.' },
   { num: '02', title: 'View the details', desc: 'Check the property information, amenities and pricing.' },
-  { num: '03', title: 'Get in touch',     desc: 'Contact us to ask about your dates, availability and booking.' },
+  { num: '03', title: 'Get in touch', desc: 'Contact us to ask about your dates, availability and booking.' },
 ];
 
 function HowItWorks() {
@@ -242,51 +267,26 @@ function HowItWorks() {
 }
 
 /* ══════════════════════════════════════════════════════
-   GOKULAM CONTEXT
+   PLAN YOUR VISIT CTA — warm sandstone, NOT dark
 ══════════════════════════════════════════════════════ */
-function GokulamContext() {
+function PlanYourVisit() {
   return (
-    <section className="gokulam-ctx" aria-label="About Gokulam neighbourhood">
-      <div className="container gokulam-ctx__inner">
-        <div className="gokulam-ctx__text">
-          <span className="section-label">THE NEIGHBOURHOOD</span>
-          <h2 className="gokulam-ctx__title">Stay in Gokulam.</h2>
-          <div className="gold-divider" />
-          <p className="gokulam-ctx__desc">
-            A calm residential neighbourhood known for its yoga community, cafés
-            and convenient access around Mysuru.
-          </p>
-          <Link to="/location" className="btn-outline gokulam-ctx__link" aria-label="Explore Gokulam neighbourhood">
-            Explore Gokulam <FiArrowRight size={14} aria-hidden="true" />
-          </Link>
-        </div>
-        <div className="gokulam-ctx__pattern" aria-hidden="true">
-          <div className="gokulam-ctx__orb" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ══════════════════════════════════════════════════════
-   FINAL CTA
-══════════════════════════════════════════════════════ */
-function FinalCTA() {
-  return (
-    <section className="stays-cta" aria-label="Contact and planning">
+    <section className="stays-cta" aria-label="Plan your visit to Mysuru">
       <div className="container stays-cta__inner">
-        <span className="section-label">PLAN YOUR VISIT</span>
+        <div className="stays-cta__ornament" aria-hidden="true">✦</div>
+        <span className="stays-cta__label">PLAN YOUR VISIT</span>
         <h2 className="stays-cta__title">Planning your stay in Mysuru?</h2>
+        <div className="stays-cta__divider" aria-hidden="true" />
         <p className="stays-cta__desc">
-          Have questions about a property or your visit? Get in touch and we'll
-          help you find the right place.
+          Have questions about a property or your visit?<br />
+          Get in touch and we'll help you find the right place.
         </p>
         <div className="stays-cta__btns">
           <Link to="/contact" className="stays-cta__primary" aria-label="Contact Namaste Nest">
             Contact Us
           </Link>
-          <Link to="/location" className="stays-cta__secondary" aria-label="Get directions">
-            Get Directions
+          <Link to="/location" className="stays-cta__secondary" aria-label="Explore Gokulam neighbourhood">
+            Explore Location
           </Link>
         </div>
       </div>
@@ -298,18 +298,17 @@ function FinalCTA() {
    MAIN PAGE
 ══════════════════════════════════════════════════════ */
 export default function Rooms() {
-  const [rooms,      setRooms]      = useState([]);
-  const [loading,    setLoading]    = useState(true);
-  const [error,      setError]      = useState(false);
+  const [rooms, setRooms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [activeType, setActiveType] = useState('All');
-  const [search,     setSearch]     = useState('');
-  const [sortBy,     setSortBy]     = useState('recommended');
+  const [search, setSearch] = useState('');
 
   const fetchRooms = () => {
     setLoading(true);
     setError(false);
     axios.get(`${API}/properties`)
-      .then(r  => setRooms(r.data.data || []))
+      .then(r => setRooms(r.data.data || []))
       .catch(() => setError(true))
       .finally(() => setLoading(false));
   };
@@ -317,30 +316,29 @@ export default function Rooms() {
   useEffect(() => { fetchRooms(); }, []);
 
   /* Split on isFeatured — never fallback to rooms[0] */
-  const featured   = rooms.find(r => r.isFeatured === true);
+  const featured = rooms.find(r => r.isFeatured === true);
   const otherRooms = rooms.filter(r => r.isFeatured !== true);
 
-  /* Filter + sort other stays */
+  /* Filter other stays — no sorting */
   const filteredOthers = (() => {
     let result = otherRooms;
     if (activeType !== 'All') result = result.filter(r => r.type === activeType);
     if (search.trim()) {
       const q = search.toLowerCase();
-      result  = result.filter(r =>
+      result = result.filter(r =>
         r.name.toLowerCase().includes(q) ||
         (r.description || '').toLowerCase().includes(q)
       );
     }
-    return applySorting(result, sortBy);
+    return result;
   })();
 
-  /* Featured visibility under active type filter */
+  /* Featured visibility under current filter */
   const featuredPassesFilter =
     activeType === 'All' || featured?.type === activeType;
   const featuredPassesSearch = !search.trim() ||
     (featured?.name || '').toLowerCase().includes(search.toLowerCase()) ||
     (featured?.description || '').toLowerCase().includes(search.toLowerCase());
-
   const showFeatured = !!featured && featuredPassesFilter && featuredPassesSearch;
 
   const clearFilters = () => { setActiveType('All'); setSearch(''); };
@@ -348,19 +346,8 @@ export default function Rooms() {
   return (
     <div className="stays-page">
 
-      {/* ── HEADER ── */}
-      <header className="stays-header">
-        <div className="container stays-header__inner">
-          <span className="section-label">OUR STAYS</span>
-          <h1 className="stays-header__title">Find your stay.</h1>
-          <p className="stays-header__desc">
-            Homes and rooms around Mysuru, with Namaste Nest as our featured stay.
-          </p>
-          <p className="stays-header__location" aria-label="Location">
-            Gokulam · Mysuru
-          </p>
-        </div>
-      </header>
+      {/* ── BANNER ── */}
+      <StaysBanner />
 
       {/* ── ERROR ── */}
       {error && !loading && (
@@ -388,7 +375,6 @@ export default function Rooms() {
       {!error && (
         <section className="stays-section" aria-labelledby="other-heading">
           <div className="container">
-            {/* Section header */}
             <div className="stays-section__head">
               <span className="section-label">EXPLORE OTHER STAYS</span>
               <h2 id="other-heading" className="stays-section__title">Other stays.</h2>
@@ -398,9 +384,8 @@ export default function Rooms() {
               </p>
             </div>
 
-            {/* Controls */}
+            {/* Controls — search + type filters only, no sort */}
             <div className="stays-controls" role="search">
-              {/* Search */}
               <div className="stays-search">
                 <FiSearch size={15} aria-hidden="true" />
                 <input
@@ -413,7 +398,6 @@ export default function Rooms() {
                 />
               </div>
 
-              {/* Type filters */}
               <div
                 className="stays-filters"
                 role="group"
@@ -421,33 +405,14 @@ export default function Rooms() {
               >
                 {TYPES.map(t => (
                   <button
-                    key={t}
-                    className={`stays-filter-btn${activeType === t ? ' active' : ''}`}
-                    onClick={() => setActiveType(t)}
-                    aria-pressed={activeType === t}
+                    key={t.value}
+                    className={`stays-filter-btn${activeType === t.value ? ' active' : ''}`}
+                    onClick={() => setActiveType(t.value)}
+                    aria-pressed={activeType === t.value}
                   >
-                    {t}
+                    {t.label}
                   </button>
                 ))}
-              </div>
-
-              {/* Sort */}
-              <div className="stays-sort-wrap">
-                <label htmlFor="stays-sort" className="stays-sort-label">Sort</label>
-                <div className="stays-sort-select-wrap">
-                  <select
-                    id="stays-sort"
-                    className="stays-sort"
-                    value={sortBy}
-                    onChange={e => setSortBy(e.target.value)}
-                    aria-label="Sort stays"
-                  >
-                    {SORTS.map(s => (
-                      <option key={s.value} value={s.value}>{s.label}</option>
-                    ))}
-                  </select>
-                  <FiChevronDown size={13} className="stays-sort-icon" aria-hidden="true" />
-                </div>
               </div>
             </div>
 
@@ -489,11 +454,8 @@ export default function Rooms() {
       {/* ── HOW IT WORKS ── */}
       <HowItWorks />
 
-      {/* ── GOKULAM ── */}
-      <GokulamContext />
-
-      {/* ── FINAL CTA ── */}
-      <FinalCTA />
+      {/* ── PLAN YOUR VISIT ── */}
+      <PlanYourVisit />
     </div>
   );
 }
