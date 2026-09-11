@@ -13,6 +13,7 @@ connectDB();
 app.use(helmet({
   crossOriginEmbedderPolicy: false,
   crossOriginResourcePolicy: { policy: 'cross-origin' },
+  crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
   contentSecurityPolicy: false,
 }));
 
@@ -78,6 +79,16 @@ app.get('/api/health', (req, res) => res.json({ status: 'OK', message: 'Namaste 
 
 // 404
 app.use((req, res) => res.status(404).json({ message: 'Route not found' }));
+
+// Global error handler — guarantees JSON response on any unhandled error
+app.use((err, req, res, next) => {
+  console.error('❌ Server error:', err);
+  const status = err.status || err.statusCode || (err.name === 'ValidationError' || err.name === 'MulterError' ? 400 : 500);
+  res.status(status).json({
+    success: false,
+    message: err.message || 'Internal server error',
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));

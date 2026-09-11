@@ -146,7 +146,8 @@ export default function PropertyForm() {
       }
       navigate('/admin');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Save failed');
+      console.error('Property save error:', err.response?.data || err);
+      toast.error(err.response?.data?.message || err.message || 'Save failed');
     } finally { setSaving(false); }
   };
 
