@@ -24,10 +24,24 @@ export default function Navbar() {
 
   useEffect(() => { setOpen(false); }, [pathname]);
 
+  const handleLogoClick = () => {
+    if (pathname === '/') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+    setOpen(false);
+  };
+
+  const handleLinkClick = (to) => {
+    if (pathname === to) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+    setOpen(false);
+  };
+
   return (
     <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
       <div className="navbar__inner container">
-        <Link to="/" className="navbar__logo">
+        <Link to="/" className="navbar__logo" onClick={handleLogoClick}>
           <img src={logoImg} alt="Namaste Nest Logo" className="navbar__logo-img" />
           <div>
             <span className="navbar__logo-name">Namaste Nest</span>
@@ -38,7 +52,12 @@ export default function Navbar() {
         <ul className={`navbar__links ${open ? 'navbar__links--open' : ''}`}>
           {links.map(l => (
             <li key={l.to}>
-              <NavLink to={l.to} end={l.to === '/'} className={({ isActive }) => isActive ? 'navbar__link navbar__link--active' : 'navbar__link'}>
+              <NavLink
+                to={l.to}
+                end={l.to === '/'}
+                className={({ isActive }) => isActive ? 'navbar__link navbar__link--active' : 'navbar__link'}
+                onClick={() => handleLinkClick(l.to)}
+              >
                 {l.label}
               </NavLink>
             </li>

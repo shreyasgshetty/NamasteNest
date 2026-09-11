@@ -1,4 +1,5 @@
-import { FiMapPin, FiNavigation, FiClock, FiTruck } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
+import { FiMapPin, FiNavigation, FiClock } from 'react-icons/fi';
 import './Location.css';
 
 const NEARBY = [
@@ -13,7 +14,6 @@ const NEARBY = [
   { place: 'KSRTC Bus Stand', dist: '6 km', time: '15 min', icon: '🚌' },
 ];
 
-
 export default function Location() {
   return (
     <div className="location">
@@ -24,6 +24,17 @@ export default function Location() {
           <h1 className="section-title">Our Location</h1>
           <div className="location__address">
             <FiMapPin /> 959, 7th main, Gokulam 3rd Stage,<br />Mysore, Karnataka 570002
+          </div>
+          <div style={{ marginTop: '18px' }}>
+            <a
+              href="https://maps.app.goo.gl/Rk7bUzdaPRY5pz1q7"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+            >
+              <FiNavigation size={15} /> Get Directions in Google Maps
+            </a>
           </div>
         </div>
       </div>
@@ -44,6 +55,14 @@ export default function Location() {
               <strong>Namaste Nest Guest House</strong>
               <span>959, 7th main, Gokulam 3rd Stage,<br />Mysore, Karnataka 570002</span>
             </div>
+            <a
+              href="https://maps.app.goo.gl/Rk7bUzdaPRY5pz1q7"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--color-accent-hover)', fontWeight: 600, fontSize: '0.84rem' }}
+            >
+              <FiNavigation size={14} /> Open Maps
+            </a>
           </div>
         </div>
 
@@ -68,7 +87,25 @@ export default function Location() {
           </div>
         </section>
 
-
+        {/* Plan Your Visit CTA */}
+        <section style={{ margin: '40px 0 60px', textAlign: 'center' }}>
+          <div style={{ padding: '48px 24px', background: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--color-border)', maxWidth: '720px', margin: '0 auto' }}>
+            <span className="section-label">PLAN YOUR STAY</span>
+            <h2 className="section-title">Ready to Visit Mysuru?</h2>
+            <div className="gold-divider" style={{ margin: '12px auto 16px' }} />
+            <p className="section-sub" style={{ margin: '0 auto 28px', maxWidth: '520px' }}>
+              Enjoy a peaceful and memorable stay at Namaste Nest in the heart of Gokulam.
+            </p>
+            <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link to="/rooms" className="btn-primary">
+                Explore Stays
+              </Link>
+              <Link to="/contact" className="btn-outline">
+                Contact Us
+              </Link>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

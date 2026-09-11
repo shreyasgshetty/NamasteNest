@@ -29,11 +29,11 @@ export default function Footer() {
         <div className="footer__col">
           <h4>Room Types</h4>
           <ul>
-            <li><Link to="/rooms">1 BHK</Link></li>
-            <li><Link to="/rooms">2 BHK</Link></li>
-            <li><Link to="/rooms">3 BHK</Link></li>
-            <li><Link to="/rooms">4 BHK</Link></li>
-            <li><Link to="/rooms">Studio Rooms</Link></li>
+            <li><Link to="/rooms?type=1BHK">1 BHK</Link></li>
+            <li><Link to="/rooms?type=2BHK">2 BHK</Link></li>
+            <li><Link to="/rooms?type=3BHK">3 BHK</Link></li>
+            <li><Link to="/rooms?type=4BHK">4 BHK</Link></li>
+            <li><Link to="/rooms?type=Studio">Studio Rooms</Link></li>
           </ul>
         </div>
 

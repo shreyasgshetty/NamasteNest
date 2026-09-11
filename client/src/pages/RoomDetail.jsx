@@ -43,7 +43,6 @@ export default function RoomDetail() {
   const [lightbox, setLightbox] = useState(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     setLoading(true);
     axios
       .get(`${API}/properties/${slug}`)

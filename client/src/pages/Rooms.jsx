@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
   FiSearch, FiArrowRight, FiUsers, FiExternalLink,
   FiRefreshCw, FiDroplet,
@@ -298,11 +298,33 @@ function PlanYourVisit() {
    MAIN PAGE
 ══════════════════════════════════════════════════════ */
 export default function Rooms() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [activeType, setActiveType] = useState('All');
+  const [activeType, setActiveType] = useState(searchParams.get('type') || 'All');
   const [search, setSearch] = useState('');
+
+  // Sync state when searchParams change (e.g. from footer links)
+  useEffect(() => {
+    const typeFromUrl = searchParams.get('type');
+    if (typeFromUrl && TYPES.some(t => t.value === typeFromUrl)) {
+      setActiveType(typeFromUrl);
+    } else if (!typeFromUrl) {
+      setActiveType('All');
+    }
+  }, [searchParams]);
+
+  const handleTypeChange = (val) => {
+    setActiveType(val);
+    const nextParams = new URLSearchParams(searchParams);
+    if (val === 'All') {
+      nextParams.delete('type');
+    } else {
+      nextParams.set('type', val);
+    }
+    setSearchParams(nextParams, { replace: true });
+  };
 
   const fetchRooms = () => {
     setLoading(true);
@@ -341,7 +363,13 @@ export default function Rooms() {
     (featured?.description || '').toLowerCase().includes(search.toLowerCase());
   const showFeatured = !!featured && featuredPassesFilter && featuredPassesSearch;
 
-  const clearFilters = () => { setActiveType('All'); setSearch(''); };
+  const clearFilters = () => {
+    setActiveType('All');
+    setSearch('');
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete('type');
+    setSearchParams(nextParams, { replace: true });
+  };
 
   return (
     <div className="stays-page">
@@ -407,7 +435,7 @@ export default function Rooms() {
                   <button
                     key={t.value}
                     className={`stays-filter-btn${activeType === t.value ? ' active' : ''}`}
-                    onClick={() => setActiveType(t.value)}
+                    onClick={() => handleTypeChange(t.value)}
                     aria-pressed={activeType === t.value}
                   >
                     {t.label}

@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Rooms from './pages/Rooms';
 import RoomDetail from './pages/RoomDetail';
@@ -28,6 +29,7 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Toaster position="top-right" toastOptions={{ style: { background: '#1a1a1a', color: '#f5f0e8', border: '1px solid rgba(200,169,110,0.3)' } }} />
         <Routes>
           {/* Public routes */}

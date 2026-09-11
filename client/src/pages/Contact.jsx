@@ -22,9 +22,15 @@ export default function Contact() {
   useEffect(() => {
     const stay = searchParams.get('stay');
     if (stay) {
+      let decodedStay = stay;
+      try {
+        decodedStay = decodeURIComponent(stay);
+      } catch {
+        decodedStay = stay;
+      }
       setForm(p => ({
         ...p,
-        message: p.message ? p.message : `I'm interested in: ${decodeURIComponent(stay)}\n\n`,
+        message: p.message ? p.message : `I'm interested in: ${decodedStay}\n\n`,
       }));
     }
   }, [searchParams]);
