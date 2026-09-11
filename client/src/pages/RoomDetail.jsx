@@ -44,6 +44,8 @@ export default function RoomDetail() {
 
   useEffect(() => {
     setLoading(true);
+    setActiveImg(0);
+    setLightbox(false);
     axios
       .get(`${API}/properties/${slug}`)
       .then((r) => setRoom(r.data.data))
@@ -60,7 +62,7 @@ export default function RoomDetail() {
   }, [room?.images]);
 
   // Keep active index within valid bounds
-  const currentImgIndex = activeImg < images.length ? activeImg : 0;
+  const currentImgIndex = images.length > 0 ? ((activeImg % images.length) + images.length) % images.length : 0;
 
   // Navigation helpers
   const prev = useCallback(() => {
@@ -222,22 +224,20 @@ export default function RoomDetail() {
             <div
               className="rd__photo-main"
               onClick={() => {
-                setActiveImg(0);
                 setLightbox(true);
               }}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
-                  setActiveImg(0);
                   setLightbox(true);
                 }
               }}
-              aria-label="View photo 1 in fullscreen"
+              aria-label={`View photo ${currentImgIndex + 1} in fullscreen`}
             >
               <img
-                src={images[0]}
-                alt={`${room.name} — primary photo`}
+                src={images[currentImgIndex]}
+                alt={`${room.name} — photo ${currentImgIndex + 1}`}
                 className="rd__img"
                 loading="eager"
               />
