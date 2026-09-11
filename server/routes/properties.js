@@ -4,12 +4,12 @@ const Property = require('../models/Property');
 const { upload, uploadToCloudinary, deleteFromCloudinary } = require('../middleware/upload');
 const { verifyAdmin } = require('../middleware/firebaseAdmin');
 
-// Safe multer wrapper to intercept file filter / size limit errors before route execution
+// Safe multer wrapper to accept files without field restriction and catch size/filter errors
 const handleUpload = (req, res, next) => {
-  upload.array('images', 10)(req, res, (err) => {
+  upload.any()(req, res, (err) => {
     if (err) {
       if (err.code === 'LIMIT_FILE_SIZE') {
-        return res.status(400).json({ success: false, message: 'One or more images exceed the 10MB size limit.' });
+        return res.status(400).json({ success: false, message: 'One or more images exceed the 15MB size limit.' });
       }
       return res.status(400).json({ success: false, message: err.message || 'Image upload failed.' });
     }
