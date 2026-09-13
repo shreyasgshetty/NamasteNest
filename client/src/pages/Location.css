@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════════════════════════════════════
    NAMASTE NEST — LOCATION PAGE
    Warm, Editorial, Premium Hospitality UI/UX
-   Mysuru Heritage & Modern Serenity
+   Mysuru Heritage & Photography-Led Destination Gallery
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Page Base ── */
@@ -97,37 +97,6 @@
 .location-page__body {
   padding-top: clamp(36px, 5vw, 60px);
   padding-bottom: clamp(48px, 6vw, 72px);
-}
-
-/* Reusable meta chips (distance / travel time) */
-.location-meta-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: var(--radius-full);
-  background: var(--color-surface-subtle);
-  border: 1px solid var(--color-border);
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  white-space: nowrap;
-  letter-spacing: 0.01em;
-}
-
-.location-meta-chip__icon {
-  color: var(--color-accent);
-  flex-shrink: 0;
-}
-
-/* Footnotes & Disclaimers */
-.location-disclaimer {
-  font-size: 0.82rem;
-  color: var(--color-text-muted);
-  font-style: italic;
-  margin-top: 20px;
-  text-align: right;
-  letter-spacing: 0.01em;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -231,136 +200,197 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   3. EXPLORE MYSURU — ATTRACTIONS EDITORIAL LIST
+   3. EXPLORE MYSURU — PHOTOGRAPHY-LED EDITORIAL MOSAIC GALLERY
    ══════════════════════════════════════════════════════════════════════════ */
 .location-explore {
   margin-bottom: clamp(64px, 8vw, 96px);
 }
 
 .location-explore__head {
-  margin-bottom: clamp(28px, 4vw, 40px);
+  margin-bottom: clamp(24px, 3.5vw, 36px);
 }
 
-.location-attractions-list {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+/* ─────────────────────────────────────────────────────────────────────────
+   MOSAIC GRID — single unified grid with named template areas.
+   6 columns (LCM of 2 and 3) lets palace span 4 and each bottom tile span 2.
+   3 rows: top-half | bottom-half | footer-row
+   ──────────────────────────────────────────────────────────────────────── */
+.location-gallery-mosaic {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 240px 240px 220px;
+  grid-template-areas:
+    "palace  palace  palace  palace  devaraja  devaraja"
+    "palace  palace  palace  palace  philomena philomena"
+    "zoo     zoo     chamundi chamundi brindavan brindavan";
+  gap: 16px;
+}
+
+/* ── Wrapper divs removed — each tile is now a direct grid child ── */
+.location-gallery__top,
+.location-gallery__stacked,
+.location-gallery__bottom {
+  display: contents; /* make wrappers invisible to grid; tiles become direct children */
+}
+
+/* Grid area assignments */
+.location-tile--dominant   { grid-area: palace;    }
+.location-tile--devaraja   { grid-area: devaraja;  }
+.location-tile--philomena  { grid-area: philomena; }
+.location-tile--zoo        { grid-area: zoo;       }
+.location-tile--chamundi   { grid-area: chamundi;  }
+.location-tile--brindavan  { grid-area: brindavan; }
+
+/* ── Individual Image Tile ── */
+.location-tile {
+  position: relative;
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  background: #171a17;
+  border: 1px solid var(--color-border-subtle);
   box-shadow: var(--shadow-sm);
+  cursor: default;
+  /* height is defined by grid-template-rows — no explicit height needed */
 }
 
-/* Attraction Row (Editorial Design) */
-.location-attraction-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 24px 28px;
-  border-bottom: 1px solid var(--color-border-subtle);
-  transition: background-color 0.2s ease, transform 0.2s ease;
+.location-tile__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.2, 0, 0.2, 1);
 }
 
-.location-attraction-row:last-child {
-  border-bottom: none;
+.location-tile:hover .location-tile__img {
+  transform: scale(1.035);
 }
 
-.location-attraction-row:hover {
-  background-color: var(--color-surface-subtle);
+/* Subtle dark gradient overlay at the bottom for crisp text readability */
+.location-tile__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(14, 18, 14, 0) 35%,
+    rgba(14, 18, 14, 0.42) 65%,
+    rgba(14, 18, 14, 0.88) 100%
+  );
+  pointer-events: none;
+  transition: background 0.3s ease;
 }
 
-.location-attraction-row:hover .location-attraction-row__arrow {
-  color: var(--color-accent);
-  transform: translate(2px, -2px);
+.location-tile:hover .location-tile__overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(14, 18, 14, 0) 30%,
+    rgba(14, 18, 14, 0.48) 60%,
+    rgba(14, 18, 14, 0.92) 100%
+  );
 }
 
-/* Left block: index + name + descriptor */
-.location-attraction-row__main {
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  flex: 1;
-  min-width: 0;
+/* Text Content Overlay (Place name + distance & time only) */
+.location-tile__info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: clamp(14px, 1.8vw, 22px);
+  z-index: 2;
+  pointer-events: none;
 }
 
-.location-attraction-row__index {
+.location-tile--dominant .location-tile__title {
   font-family: var(--font-heading);
-  font-size: 1.15rem;
+  font-size: clamp(1.45rem, 2.2vw, 1.85rem);
   font-weight: 600;
-  color: var(--color-accent);
-  line-height: 1.4;
-  opacity: 0.85;
-  flex-shrink: 0;
-  min-width: 24px;
-}
-
-.location-attraction-row__text {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.location-attraction-row__name {
-  font-family: var(--font-heading);
-  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
-  font-weight: 600;
-  color: var(--color-text);
-  line-height: 1.25;
+  color: #ffffff;
+  line-height: 1.15;
+  margin-bottom: 4px;
   letter-spacing: -0.01em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
 }
 
-.location-attraction-row__desc {
-  font-size: clamp(0.86rem, 1vw, 0.93rem);
-  color: var(--color-text-secondary);
-  line-height: 1.55;
+.location-tile--medium .location-tile__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
 }
 
-/* Right block: distance + time + subtle arrow */
-.location-attraction-row__meta {
+.location-tile--small .location-tile__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.location-tile__meta {
+  font-family: var(--font-body);
+  font-size: clamp(0.78rem, 1vw, 0.84rem);
+  color: rgba(250, 247, 242, 0.92);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Gallery Footer: Disclaimer & Wikimedia attribution */
+.location-gallery__footer {
+  margin-top: 14px;
   display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.location-attraction-row__arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+.location-disclaimer {
+  font-size: 0.82rem;
   color: var(--color-text-muted);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  transition: var(--transition);
-  flex-shrink: 0;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+.location-attribution {
+  font-size: 0.74rem;
+  color: var(--color-text-muted);
+  opacity: 0.8;
+  letter-spacing: 0.01em;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   4. GETTING HERE — TRANSPORTATION SECTION
+   4. GETTING HERE — TRANSPORTATION ACCESS POINTS (Compact)
    ══════════════════════════════════════════════════════════════════════════ */
 .location-transit {
   margin-bottom: clamp(48px, 6vw, 72px);
 }
 
 .location-transit__head {
-  margin-bottom: clamp(28px, 4vw, 40px);
+  margin-bottom: clamp(20px, 3vw, 30px);
 }
 
 .location-transit-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(18px, 2.5vw, 28px);
+  gap: clamp(14px, 2vw, 20px);
 }
 
 .location-transit-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: clamp(24px, 3vw, 32px);
+  padding: 18px 22px;
   box-shadow: var(--shadow-sm);
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   transition: var(--transition);
 }
 
@@ -371,8 +401,8 @@
 }
 
 .location-transit-card__icon-wrap {
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-md);
   background: var(--color-accent-subtle);
   border: 1px solid var(--color-accent-light);
@@ -380,7 +410,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 18px;
+  flex-shrink: 0;
   transition: var(--transition);
 }
 
@@ -390,27 +420,25 @@
   border-color: var(--color-accent);
 }
 
+.location-transit-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .location-transit-card__name {
   font-family: var(--font-heading);
-  font-size: clamp(1.2rem, 1.6vw, 1.35rem);
+  font-size: clamp(1.08rem, 1.4vw, 1.22rem);
   font-weight: 600;
   color: var(--color-text);
-  margin-bottom: 14px;
   line-height: 1.25;
 }
 
-.location-transit-card__chips {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-.location-transit-card__label {
-  font-size: 0.88rem;
+.location-transit-card__meta {
+  font-size: 0.82rem;
   color: var(--color-text-secondary);
-  line-height: 1.6;
-  margin-top: auto;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -418,7 +446,7 @@
    ══════════════════════════════════════════════════════════════════════════ */
 .location-cta {
   padding: clamp(60px, 8vw, 84px) 0;
-  background: #EADBC8; /* Warm sandstone — distinct from dark footer (#1E221E) */
+  background: #EADBC8; /* Warm sandstone — distinct from dark footer */
   border-top: 1px solid #D4C0A8;
 }
 
@@ -469,14 +497,22 @@
    RESPONSIVE DESIGN (Desktop, Tablet, Mobile)
    ══════════════════════════════════════════════════════════════════════════ */
 
-/* Tablet & Smaller Desktops (≤ 1024px) */
+/* Tablet Landscape (≤ 1024px) */
 @media (max-width: 1024px) {
-  .location-transit-grid {
-    grid-template-columns: repeat(2, 1fr);
+  /* Slightly shorter rows on tablet */
+  .location-gallery-mosaic {
+    grid-template-rows: 210px 210px 190px;
+    gap: 14px;
   }
 
-  .location-transit-card:last-child {
-    grid-column: span 2;
+  .location-transit-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .location-transit-card {
+    padding: 16px 18px;
+    gap: 12px;
   }
 }
 
@@ -489,9 +525,9 @@
     line-height: 1.45;
   }
 
-  /* Map card docks beneath map or at bottom cleanly */
+  /* Map card docks below map cleanly */
   .location-map__wrap {
-    height: 350px;
+    height: 340px;
   }
 
   .location-map__card {
@@ -509,36 +545,28 @@
     margin-top: 6px;
   }
 
-  /* Attractions: stack metadata cleanly */
-  .location-attraction-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 20px 18px;
-  }
-
-  .location-attraction-row__meta {
-    width: 100%;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .location-attraction-row__arrow {
-    margin-left: auto;
+  /* Mosaic: 2-column layout on tablet portrait
+     Palace spans full width (2 cols), rest are 1 col each */
+  .location-gallery-mosaic {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 280px 190px 190px 190px;
+    grid-template-areas:
+      "palace    palace"
+      "devaraja  philomena"
+      "zoo       chamundi"
+      "brindavan brindavan";
+    gap: 12px;
   }
 
   /* Transportation cards: single column stack */
   .location-transit-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 12px;
   }
 
-  .location-transit-card:last-child {
-    grid-column: span 1;
-  }
-
-  .location-disclaimer {
-    text-align: left;
+  .location-gallery__footer {
+    flex-direction: column;
+    gap: 4px;
   }
 
   .location-cta__btn {
@@ -547,14 +575,24 @@
   }
 }
 
-/* Small Mobile (≤ 480px) */
-@media (max-width: 480px) {
-  .location-attraction-row__main {
-    gap: 12px;
+/* Small Mobile (≤ 520px) */
+@media (max-width: 520px) {
+  /* Single column full-width stack */
+  .location-gallery-mosaic {
+    grid-template-columns: 1fr;
+    grid-template-rows: 240px 190px 190px 175px 175px 175px;
+    grid-template-areas:
+      "palace"
+      "devaraja"
+      "philomena"
+      "zoo"
+      "chamundi"
+      "brindavan";
+    gap: 10px;
   }
 
-  .location-meta-chip {
-    font-size: 0.78rem;
-    padding: 5px 10px;
+  .location-tile__info {
+    padding: 14px 16px;
   }
 }
+

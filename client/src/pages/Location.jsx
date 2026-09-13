@@ -2,74 +2,40 @@ import { Link } from 'react-router-dom';
 import {
   FiMapPin,
   FiNavigation,
-  FiClock,
-  FiArrowUpRight,
   FiArrowRight,
 } from 'react-icons/fi';
 import { TbTrain, TbBus, TbPlane } from 'react-icons/tb';
 import './Location.css';
 
-/* ── Verified Mysuru Attractions (Curated editorial selection) ── */
-const ATTRACTIONS = [
-  {
-    name: 'Mysuru Palace',
-    desc: 'Royal heritage and iconic Indo-Saracenic seat of the Wadiyar dynasty',
-    distance: '~6 km',
-    time: '~15 min by car',
-  },
-  {
-    name: 'Devaraja Market',
-    desc: 'Vibrant century-old bazaar renowned for fresh flowers, spices, and local Mysore sweets',
-    distance: '~5 km',
-    time: '~10 min by car',
-  },
-  {
-    name: "St. Philomena's Cathedral",
-    desc: 'Majestic Neo-Gothic cathedral featuring twin 175-foot spires and stained-glass halls',
-    distance: '~5.5 km',
-    time: '~15 min by car',
-  },
-  {
-    name: 'Mysuru Zoo',
-    desc: 'One of India’s oldest and most renowned zoological gardens, set amidst lush botanical grounds',
-    distance: '~7 km',
-    time: '~20 min by car',
-  },
-  {
-    name: 'Chamundi Hills',
-    desc: 'Historic hilltop temple dedicated to Goddess Chamundeshwari, offering panoramic city vistas',
-    distance: '~17 km',
-    time: '~30 min by car',
-  },
-  {
-    name: 'Brindavan Gardens',
-    desc: 'Symmetrical terraced gardens, illuminated fountains, and botanical walkways by the KRS Dam',
-    distance: '~18 km',
-    time: '~30 min by car',
-  },
-];
+/* ── Exact Wikimedia Commons Destination Images ── */
+const PALACE_IMG =
+  'https://upload.wikimedia.org/wikipedia/commons/7/74/Exterior_of_the_Mysore_Palace%2C_Mysore%2C_Karnataka%2C_2018.jpg';
+const DEVARAJA_IMG =
+  'https://upload.wikimedia.org/wikipedia/commons/e/eb/Devaraja_market_in_Mysore_%28Karnataka%2C_India_2023%29_%2852717164759%29.jpg';
+const PHILOMENAS_IMG =
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Beautiful_Exterior_view_of_St._Philomena%E2%80%99s_Cathedral%2C_Mysuru%2C_Karnataka.jpg/960px-Beautiful_Exterior_view_of_St._Philomena%E2%80%99s_Cathedral%2C_Mysuru%2C_Karnataka.jpg';
+const ZOO_IMG =
+  'https://upload.wikimedia.org/wikipedia/commons/0/07/Zoo_entrance_gate.JPG';
+const CHAMUNDI_IMG =
+  'https://upload.wikimedia.org/wikipedia/commons/6/64/Mysore_Chamundeshwari_Temple.jpg';
+const BRINDAVAN_IMG =
+  'https://upload.wikimedia.org/wikipedia/commons/9/98/Brindavan_Gardens%2C_Mysore_%283618327523%29.jpg';
 
 /* ── Transportation & Access Hubs ── */
 const GETTING_HERE = [
   {
     name: 'Mysuru Railway Station',
-    distance: '~4 km',
-    time: '~10 min by car',
-    label: 'Primary rail junction connecting Bengaluru, Chennai, and regional routes across South India',
+    meta: '~4 km · ~10 min by car',
     icon: TbTrain,
   },
   {
     name: 'KSRTC Bus Stand',
-    distance: '~6 km',
-    time: '~15 min by car',
-    label: 'Central bus terminus for intercity express coaches and airport Flybus transit',
+    meta: '~6 km · ~15 min by car',
     icon: TbBus,
   },
   {
     name: 'Mysuru Airport',
-    distance: '~15 km',
-    time: '~30 min by car',
-    label: 'Domestic airport at Mandakalli with scheduled commercial flights connecting to major metros',
+    meta: '~15 km · ~30 min by car',
     icon: TbPlane,
   },
 ];
@@ -149,69 +115,135 @@ export default function Location() {
           </div>
         </section>
 
-        {/* ── 3. EXPLORE MYSURU — ATTRACTIONS EDITORIAL LIST ── */}
+        {/* ── 3. EXPLORE MYSURU — PHOTOGRAPHY-LED EDITORIAL DESTINATION GALLERY ── */}
         <section className="location-explore" aria-labelledby="explore-title">
           <div className="location-explore__head">
             <span className="section-label">EXPLORE MYSURU</span>
             <h2 id="explore-title" className="section-title">
-              Places worth discovering from Namaste Nest
+              Places worth discovering
             </h2>
             <div className="gold-divider" />
             <p className="section-sub">
-              Discover some of Mysuru's best-known sights, from royal heritage and bustling markets
-              to landscaped gardens and hilltop views.
+              Discover a few of Mysuru's most memorable sights, all within easy reach of Namaste Nest.
             </p>
           </div>
 
-          <div className="location-attractions-list" role="list">
-            {ATTRACTIONS.map((item, idx) => (
-              <article
-                key={item.name}
-                className="location-attraction-row"
-                role="listitem"
-              >
-                <div className="location-attraction-row__main">
-                  <div className="location-attraction-row__index" aria-hidden="true">
-                    0{idx + 1}
-                  </div>
-                  <div className="location-attraction-row__text">
-                    <h3 className="location-attraction-row__name">{item.name}</h3>
-                    <p className="location-attraction-row__desc">{item.desc}</p>
-                  </div>
-                </div>
-
-                <div className="location-attraction-row__meta">
-                  <span className="location-meta-chip" title="Distance from Namaste Nest">
-                    <FiMapPin size={13} className="location-meta-chip__icon" />
-                    <span>{item.distance}</span>
-                  </span>
-                  <span className="location-meta-chip" title="Approximate travel time by car">
-                    <FiClock size={13} className="location-meta-chip__icon" />
-                    <span>{item.time}</span>
-                  </span>
-                  <div className="location-attraction-row__arrow" aria-hidden="true">
-                    <FiArrowUpRight size={17} />
-                  </div>
+          <div className="location-gallery-mosaic">
+            {/* Top Tier: Dominant Palace + Stacked Devaraja & St. Philomena's */}
+            <div className="location-gallery__top">
+              {/* Dominant Feature: Mysuru Palace */}
+              <article className="location-tile location-tile--dominant">
+                <img
+                  src={PALACE_IMG}
+                  alt="Mysuru Palace exterior illuminated against sky"
+                  className="location-tile__img"
+                  loading="lazy"
+                />
+                <div className="location-tile__overlay" />
+                <div className="location-tile__info">
+                  <h3 className="location-tile__title">Mysuru Palace</h3>
+                  <p className="location-tile__meta">~6 km · ~15 min by car</p>
                 </div>
               </article>
-            ))}
+
+              {/* Medium Stacked: Devaraja Market & St. Philomena's Cathedral */}
+              <div className="location-gallery__stacked">
+                <article className="location-tile location-tile--medium location-tile--devaraja">
+                  <img
+                    src={DEVARAJA_IMG}
+                    alt="Devaraja Market in Mysuru"
+                    className="location-tile__img"
+                    loading="lazy"
+                  />
+                  <div className="location-tile__overlay" />
+                  <div className="location-tile__info">
+                    <h3 className="location-tile__title">Devaraja Market</h3>
+                    <p className="location-tile__meta">~5 km · ~10 min by car</p>
+                  </div>
+                </article>
+
+                <article className="location-tile location-tile--medium location-tile--philomena">
+                  <img
+                    src={PHILOMENAS_IMG}
+                    alt="St. Philomena's Cathedral twin towers"
+                    className="location-tile__img"
+                    loading="lazy"
+                  />
+                  <div className="location-tile__overlay" />
+                  <div className="location-tile__info">
+                    <h3 className="location-tile__title">St. Philomena's Cathedral</h3>
+                    <p className="location-tile__meta">~5.5 km · ~15 min by car</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            {/* Bottom Row: Mysuru Zoo, Chamundi Hills, Brindavan Gardens */}
+            <div className="location-gallery__bottom">
+              <article className="location-tile location-tile--small location-tile--zoo">
+                <img
+                  src={ZOO_IMG}
+                  alt="Entrance gate of Mysuru Zoo"
+                  className="location-tile__img"
+                  loading="lazy"
+                />
+                <div className="location-tile__overlay" />
+                <div className="location-tile__info">
+                  <h3 className="location-tile__title">Mysuru Zoo</h3>
+                  <p className="location-tile__meta">~7 km · ~20 min by car</p>
+                </div>
+              </article>
+
+              <article className="location-tile location-tile--small location-tile--chamundi">
+                <img
+                  src={CHAMUNDI_IMG}
+                  alt="Chamundeshwari Temple atop Chamundi Hills"
+                  className="location-tile__img"
+                  loading="lazy"
+                />
+                <div className="location-tile__overlay" />
+                <div className="location-tile__info">
+                  <h3 className="location-tile__title">Chamundi Hills</h3>
+                  <p className="location-tile__meta">~17 km · ~30 min by car</p>
+                </div>
+              </article>
+
+              <article className="location-tile location-tile--small location-tile--brindavan">
+                <img
+                  src={BRINDAVAN_IMG}
+                  alt="Terraced landscapes and fountains at Brindavan Gardens"
+                  className="location-tile__img"
+                  loading="lazy"
+                />
+                <div className="location-tile__overlay" />
+                <div className="location-tile__info">
+                  <h3 className="location-tile__title">Brindavan Gardens</h3>
+                  <p className="location-tile__meta">~18 km · ~30 min by car</p>
+                </div>
+              </article>
+            </div>
           </div>
 
-          <p className="location-disclaimer">
-            * Approximate distances and travel times from Namaste Nest. Travel times may vary with traffic.
-          </p>
+          <div className="location-gallery__footer">
+            <p className="location-disclaimer">
+              Approximate distances and travel times from Namaste Nest. Travel times may vary with traffic.
+            </p>
+            <p className="location-attribution">
+              Photos sourced via Wikimedia Commons under Creative Commons licenses.
+            </p>
+          </div>
         </section>
 
-        {/* ── 4. GETTING HERE — TRANSPORTATION HUBS ── */}
+        {/* ── 4. GETTING HERE — TRANSPORTATION ACCESS POINTS ── */}
         <section className="location-transit" aria-labelledby="transit-title">
           <div className="location-transit__head">
             <span className="section-label">GETTING HERE</span>
             <h2 id="transit-title" className="section-title">
-              Well connected to the city
+              Getting to Namaste Nest
             </h2>
             <div className="gold-divider" />
             <p className="section-sub">
-              Reach Namaste Nest easily by rail, road or air.
+              Convenient connections by rail, road and air.
             </p>
           </div>
 
@@ -221,28 +253,16 @@ export default function Location() {
               return (
                 <article key={hub.name} className="location-transit-card">
                   <div className="location-transit-card__icon-wrap" aria-hidden="true">
-                    <IconComponent size={24} />
+                    <IconComponent size={22} />
                   </div>
-                  <h3 className="location-transit-card__name">{hub.name}</h3>
-                  <div className="location-transit-card__chips">
-                    <span className="location-meta-chip">
-                      <FiMapPin size={13} className="location-meta-chip__icon" />
-                      <span>{hub.distance}</span>
-                    </span>
-                    <span className="location-meta-chip">
-                      <FiClock size={13} className="location-meta-chip__icon" />
-                      <span>{hub.time}</span>
-                    </span>
+                  <div className="location-transit-card__text">
+                    <h3 className="location-transit-card__name">{hub.name}</h3>
+                    <p className="location-transit-card__meta">{hub.meta}</p>
                   </div>
-                  <p className="location-transit-card__label">{hub.label}</p>
                 </article>
               );
             })}
           </div>
-
-          <p className="location-disclaimer">
-            * Travel times are approximate and may vary with traffic.
-          </p>
         </section>
       </div>
 
