@@ -166,7 +166,15 @@ export default function PropertyForm() {
         </nav>
       </div>
 
-      <form className="pform__main" onSubmit={handleSubmit} encType="multipart/form-data">
+      {/* Mobile-only back bar — sidebar is hidden on small screens */}
+      <div className="pform__mobilebar">
+        <Link to="/admin" className="pform__back"><FiArrowLeft /> Dashboard</Link>
+        <button type="submit" className="btn-primary" disabled={saving} form="pform-form">
+          <FiCheck /> {saving ? 'Saving…' : 'Save'}
+        </button>
+      </div>
+
+      <form id="pform-form" className="pform__main" onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="pform__topbar">
           <h1>{isEdit ? 'Edit Property' : 'Add New Property'}</h1>
           <button type="submit" className="btn-primary" disabled={saving}>

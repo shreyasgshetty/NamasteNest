@@ -58,6 +58,21 @@ export default function AdminDashboard() {
           <button onClick={handleLogout} className="adash__logout" title="Logout"><FiLogOut /></button>
         </div>
       </aside>
+      {/* Mobile top bar — visible only on small screens */}
+      <div className="adash__topbar">
+        <div className="adash__topbar-brand">
+          <img src={logoImg} alt="Namaste Nest" />
+          <span>Namaste Nest</span>
+        </div>
+        <div className="adash__topbar-actions">
+          <Link to="/admin/properties/new" className="btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
+            <FiPlus /> Add
+          </Link>
+          <button onClick={handleLogout} className="adash__topbar-logout" title="Logout">
+            <FiLogOut /> Logout
+          </button>
+        </div>
+      </div>
 
       {/* Main */}
       <main className="adash__main">
