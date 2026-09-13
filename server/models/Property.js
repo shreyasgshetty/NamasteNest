@@ -11,7 +11,7 @@ const propertySchema = new mongoose.Schema(
     },
     description: { type: String, required: true },
     shortDesc: { type: String },
-    price: { type: Number, required: true },
+    price: { type: Number, required: false },
 
     // Images stored as filenames (served from /uploads/)
     images: [{ type: String }],

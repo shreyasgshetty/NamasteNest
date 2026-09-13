@@ -605,9 +605,9 @@ export default function RoomDetail() {
           <div className="rd__sticky-card">
             <span className="rd__card-eyebrow">YOUR STAY</span>
 
-            <div className="rd__price-display">
-              <span className="rd__price-val">₹{room.price?.toLocaleString()}</span>
-              <span className="rd__price-unit">/ night</span>
+            <div className="rd__rates-display">
+              <span className="rd__rates-val">Rates on Enquiry</span>
+              <span className="rd__rates-note">Dynamic seasonal pricing</span>
             </div>
 
             {room.capacity && (
@@ -675,9 +675,9 @@ export default function RoomDetail() {
       {/* ── 6. MOBILE STICKY BOTTOM ENQUIRY BAR ── */}
       <div className="rd__mobile-bar" aria-label="Quick enquiry">
         <div className="rd__mobile-bar-inner">
-          <div className="rd__mobile-bar-price">
-            <span className="rd__mobile-price-val">₹{room.price?.toLocaleString()}</span>
-            <span className="rd__mobile-price-unit">/ night</span>
+          <div className="rd__mobile-bar-info">
+            <span className="rd__mobile-bar-title">{room.name}</span>
+            <span className="rd__mobile-bar-tagline">Rates on enquiry</span>
           </div>
           <div className="rd__mobile-bar-actions">
             <a

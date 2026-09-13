@@ -25,7 +25,7 @@ const ALL_AMENITIES = [
 const TYPES = ['Studio', '1BHK', '2BHK', '3BHK', '4BHK'];
 
 const empty = {
-  name: '', type: 'Studio', description: '', shortDesc: '', price: '',
+  name: '', type: 'Studio', description: '', shortDesc: '',
   capacity: 2, size: '', bedrooms: 1, bathrooms: 1, floor: '',
   amenities: [], highlights: '',
   isFeatured: false, isAvailable: true,
@@ -58,7 +58,7 @@ export default function PropertyForm() {
           setForm({
             name: prop.name || '', type: prop.type || 'Standard',
             description: prop.description || '', shortDesc: prop.shortDesc || '',
-            price: prop.price ?? '', capacity: prop.capacity ?? 2,
+            capacity: prop.capacity ?? 2,
             size: prop.size || '', bedrooms: prop.bedrooms ?? 1,
             bathrooms: prop.bathrooms ?? 1, floor: prop.floor ?? '',
             amenities: prop.amenities || [], highlights: prop.highlights?.join('\n') || '',
@@ -115,8 +115,8 @@ export default function PropertyForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.description || !form.price) {
-      toast.error('Name, description and price are required'); return;
+    if (!form.name || !form.description) {
+      toast.error('Name and description are required'); return;
     }
     setSaving(true);
     try {
@@ -125,7 +125,6 @@ export default function PropertyForm() {
       const payload = {
         ...form,
         highlights: form.highlights.split('\n').map(h => h.trim()).filter(Boolean),
-        price: Number(form.price),
         capacity: Number(form.capacity),
         bedrooms: Number(form.bedrooms),
         bathrooms: Number(form.bathrooms),
@@ -199,10 +198,6 @@ export default function PropertyForm() {
             <textarea rows={5} value={form.description} onChange={e => set('description', e.target.value)} placeholder="Detailed description of the property..." required />
           </div>
           <div className="pform__row">
-            <div className="pform__field">
-              <label>Price per Night (₹) *</label>
-              <input type="number" value={form.price} onChange={e => set('price', e.target.value)} placeholder="1500" required />
-            </div>
             <div className="pform__field">
               <label>Max Guests</label>
               <input type="number" value={form.capacity} onChange={e => set('capacity', e.target.value)} min={1} />

@@ -93,7 +93,7 @@ export default function AdminDashboard() {
                   <div className="adash__card-type">{p.type}</div>
                   <h3>{p.name}</h3>
                   <p className="adash__card-addr">{p.location?.address || 'No address set'}</p>
-                  <p className="adash__card-price">₹{p.price?.toLocaleString()}/night</p>
+                  <p className="adash__card-price">Rates on Enquiry</p>
                   <p className="adash__card-amenities">{p.amenities?.length || 0} amenities · {p.images?.length || 0} photos</p>
                 </div>
                 <div className="adash__card-actions">

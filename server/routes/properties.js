@@ -29,6 +29,7 @@ const cleanDataFields = (data) => {
   }
   if (data.floor === '' || data.floor === null) delete data.floor;
   if (data.size === '' || data.size === null) delete data.size;
+  if (data.price === '' || data.price === null || data.price === undefined) delete data.price;
   return data;
 };
 

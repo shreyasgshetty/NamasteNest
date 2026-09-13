@@ -32,7 +32,7 @@ export default function RoomCard({ room }) {
     <Link
       to={`/rooms/${room.slug}`}
       className="room-card"
-      aria-label={`View ${room.name}${room.type ? `, ${room.type}` : ''}${room.price ? `, ₹${room.price.toLocaleString('en-IN')} per night` : ''}`}
+      aria-label={`View ${room.name}${room.type ? `, ${room.type}` : ''}`}
     >
       {/* Image */}
       <div className="room-card__img-wrap">
@@ -68,18 +68,10 @@ export default function RoomCard({ room }) {
           </div>
         )}
 
-        {/* Price */}
-        <div className="room-card__price-row">
-          {room.price ? (
-            <>
-              <span className="room-card__price-val">
-                ₹{room.price.toLocaleString('en-IN')}
-              </span>
-              <span className="room-card__price-unit"> / night</span>
-            </>
-          ) : (
-            <span className="room-card__price-na">Contact for pricing</span>
-          )}
+        {/* Enquire action row */}
+        <div className="room-card__enquire-row">
+          <span className="room-card__enquire-label">Enquire for Rates</span>
+          <span className="room-card__enquire-arrow" aria-hidden="true">→</span>
         </div>
       </div>
     </Link>

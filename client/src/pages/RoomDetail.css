@@ -1057,26 +1057,26 @@
   margin-bottom: 8px;
 }
 
-.rd__price-display {
+.rd__rates-display {
   display: flex;
-  align-items: baseline;
-  gap: 6px;
-  margin-bottom: 4px;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 12px;
 }
 
-.rd__price-val {
+.rd__rates-val {
   font-family: var(--font-heading);
-  font-size: 2.6rem;
-  font-weight: 700;
+  font-size: 1.8rem;
+  font-weight: 600;
   color: var(--color-text);
-  line-height: 1;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
-.rd__price-unit {
+.rd__rates-note {
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 0.82rem;
   color: var(--color-text-secondary);
-  font-weight: 400;
 }
 
 .rd__card-capacity {
@@ -1242,23 +1242,29 @@
     margin: 0 auto;
   }
 
-  .rd__mobile-bar-price {
+  .rd__mobile-bar-info {
     display: flex;
     flex-direction: column;
+    min-width: 0;
   }
 
-  .rd__mobile-price-val {
+  .rd__mobile-bar-title {
     font-family: var(--font-heading);
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.15rem;
+    font-weight: 600;
     color: var(--color-text);
-    line-height: 1;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 170px;
   }
 
-  .rd__mobile-price-unit {
+  .rd__mobile-bar-tagline {
     font-family: var(--font-body);
-    font-size: 0.74rem;
-    color: var(--color-text-secondary);
+    font-size: 0.76rem;
+    color: var(--color-accent-hover);
+    font-weight: 500;
   }
 
   .rd__mobile-bar-actions {

@@ -118,30 +118,32 @@
   white-space: nowrap;
 }
 
-/* ── Price row ── */
-.room-card__price-row {
+/* ── Enquire action row ── */
+.room-card__enquire-row {
   margin-top: auto;
   padding-top: 14px;
   border-top: 1px solid var(--color-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-accent);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: var(--transition);
 }
 
-.room-card__price-val {
-  font-family: var(--font-heading);
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--color-text);
-  letter-spacing: -0.01em;
+.room-card:hover .room-card__enquire-row {
+  color: var(--color-accent-hover);
 }
 
-.room-card__price-unit {
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
+.room-card__enquire-arrow {
+  font-size: 1.05rem;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.room-card__price-na {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  font-style: italic;
+.room-card:hover .room-card__enquire-arrow {
+  transform: translateX(4px);
 }
 
 /* ── Reduced motion ── */

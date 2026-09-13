@@ -130,13 +130,6 @@ function FeaturedStay({ room }) {
               </div>
             )}
 
-            {room.price && (
-              <div className="featured-stay__price-block">
-                <span className="featured-stay__price">₹{room.price.toLocaleString('en-IN')}</span>
-                <span className="featured-stay__price-night"> / night</span>
-              </div>
-            )}
-
             {/* Airbnb trust bar — NAMASTE NEST ONLY */}
             <div
               className="featured-stay__trust"
@@ -206,7 +199,6 @@ function FeaturedSkeleton() {
             <div className="sk sk--pill" style={{ marginBottom: 14 }} />
             <div className="sk sk--h2" style={{ marginBottom: 16 }} />
             <div className="sk sk--row" style={{ marginBottom: 18 }} />
-            <div className="sk sk--price" style={{ marginBottom: 16 }} />
             <div className="sk sk--trust" style={{ marginBottom: 18 }} />
             <div className="sk sk--line" style={{ marginBottom: 10 }} />
             <div className="sk sk--line sk--short" style={{ marginBottom: 24 }} />
@@ -226,8 +218,7 @@ function GridSkeleton() {
           <div className="sk sk--card-img" />
           <div className="sk-card__body">
             <div className="sk sk--line" style={{ marginBottom: 10 }} />
-            <div className="sk sk--line sk--short" style={{ marginBottom: 14 }} />
-            <div className="sk sk--price" />
+            <div className="sk sk--line sk--short" />
           </div>
         </div>
       ))}
